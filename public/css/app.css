@@ -1,0 +1,65 @@
+.row{
+    margin-top: 10%;
+}
+
+.container{
+    max-width: 900px;
+}
+
+#device{
+    width: 300px;
+    position: relative;
+    display: block;
+    margin: auto;
+}
+
+#store{
+    position: relative;
+    width:200px;
+    margin: auto;
+    display: block;
+    margin-bottom: 40px;
+    margin-top: 20px;
+}
+
+.screens{
+    position: absolute;
+    width: 230px;
+    top: 80px;
+    left: 50%;
+    margin-left: -117px;
+    bottom: 0px;
+}
+
+.screen{
+    position: absolute;
+    width: 230px;
+    top: 80px;
+    left: 50%;
+    margin-left: -117px;
+    bottom: 0px;
+}
+
+#title{
+    font-size: 5em;
+    font-weight: 600;
+    width: 100%;
+    text-align: center;
+    margin-top: 0px;
+}
+
+p{
+    font-size: 1.7em;
+    font-weight: 200;
+    letter-spacing: 1px;
+}
+
+.black{
+    color: black;
+    text-shadow: 1px 1px white;
+}
+
+.white{
+    color: white;
+    text-shadow: 1px 1px black;
+}
