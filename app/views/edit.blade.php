@@ -3,92 +3,153 @@
 @section('css')
 <link rel="stylesheet" href="/css/app.css">
 <link rel="stylesheet" href="/css/edit.css">
+<link rel="stylesheet" href="/color/jquery.minicolors.css">
 @stop
 
 @section('content')
-<style>
-    body{
-        background: url(backgrounds/@{{ $background }}) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
-    }
-</style>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-push-6">
-            <h1 id="title" class="@{{ $text_color }}">@{{ $title }}</h1>
-            <p class="@{{ $text_color }}">
-                @{{ $about }}
-            </p>
-            <?php if (empty($store_url))
-                echo '<img src="/img/appstore-soon.png" id="store"/>';
-            else
-                echo '<a href="'.$store_url.'"><img src="/img/appstore.png" id="store"/></a>';
-            ?>
-        </div>
-        <div class="col-md-6 col-md-pull-6">
-            <img ng-src="/img/@{{ $phone_color }}.png" id="device" />
-            <div class="fadein">
-<!--                --><?php
-//                $images = explode(',', $image);
-//                foreach($images as $image)
-//                {
-//                    echo '<img src="/screens/'.$image.'" class="screen" />';
-//                }
-//                ?>
-<!--            </div>-->
-<!--            --><?php
-//            if(count($images) > 1)
-//            {
-//                echo '<script>var save = true;</script>';
-//            }
-//            else
-//            {
-//                echo '<script>var save = false;</script>';
-//            }
-//            ?>
+    <style>
+        body{
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;
+        }
+    </style>
+    <div id="wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-push-6">
+                    <h1 id="title" class="@{{ text_color }}">@{{ title }}</h1>
+                    <p class="@{{ text_color }}">
+                        @{{ about }}
+                    </p>
+                    <?php if (empty($store_url))
+                        echo '<img src="/img/appstore-soon.png" id="store"/>';
+                    else
+                        echo '<a href="'.store_url.'"><img src="/img/appstore.png" id="store"/></a>';
+                    ?>
+                </div>
+                <div class="col-md-6 col-md-pull-6">
+                    <img ng-src="/img/@{{ phone_color }}.png" id="device" />
+                    <div id="fade">
+<!--                        --><?php
+//                        $images = explode(',', $image);
+//                        foreach($images as $image)
+//                        {
+//                            echo '<img src="/screens/'.$image.'" class="screen" />';
+//                        }
+//                        ?>
+<!--                    </div>-->
+<!--                    --><?php
+//                    if(count($images) > 1)
+//                    {
+//                        echo '<script>var save = true;</script>';
+//                    }
+//                    else
+//                    {
+//                        echo '<script>var save = false;</script>';
+//                    }
+//                    ?>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+    </div>
+
 
 <div id="side-bar">
     {{ Form::open(array('url' => 'create', 'files' => 'true')) }}
 
-    {{ Form::label('name', 'Unique Page Name') }}
-    {{ Form::text('name',null,['placeholder'=>'name', 'class'=>'form-control','style'=>'width:50%;']) }}
+    {{ Form::label('name', 'Unique Page Name&#42;') }}
+    {{ Form::text('name',null,['placeholder'=>'name', 'class'=>'form-control', 'required'=>'required']) }}
     <br />
 
-    {{ Form::label('title', 'App Title') }}
-    {{ Form::text('title',null,['placeholder'=>'Facebook', 'class'=>'form-control', 'ng-model'=>'$title']) }}
+    {{ Form::label('title', 'App Title&#42;') }}
+    <input
+        class="form-control"
+        ng-model="title"
+        name="title"
+        type="text"
+        id="title-input"
+        value="{{{ $title or 'App Name' }}}"
+        ng-init="title='App Name'"
+        required
+        >
     <br />
-    {{ Form::label('about', 'App Description') }}
-    {{ Form::textarea('about',null,['placeholder'=>'Facebook is an amazing app to create and share stuff with your friends', 'class'=>'form-control','ng-model'=>'$about']) }}
+    {{ Form::label('about', 'App Description&#42;') }}
+    <textarea
+        class="form-control"
+        ng-model="about"
+        name="about"
+        cols="10"
+        rows="6"
+        id="about"
+        value="{{{ $about or 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua' }}}"
+        ng-init="about='Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'"
+        required
+        >
+    </textarea>
     <br />
     {{ Form::label('store_url', 'App Store URL') }}
     {{ Form::text('store_url',null,['placeholder'=>'http://apple.com/23423412412', 'class'=>'form-control']) }}
     <br />
-    {{ Form::label('image', 'App Screenshot (1 is required)') }}
-    <span class="btn btn-default btn-file">
-        Screen 1{{ Form::file('image', $attributes = array()) }}
-    </span>
-    {{ Form::file('image2', $attributes = array()) }}
-    {{ Form::file('image3', $attributes = array()) }}
-    {{ Form::file('image4', $attributes = array()) }}
+    {{ Form::label('copyright', 'Copyright&#42;') }}
+    {{ Form::text('copyright',null,['class'=>'form-control']) }}
     <br />
-    {{ Form::label('background', 'Page Background Image') }}
-    {{ Form::file('background', $attributes = array()) }}
+    {{ Form::label('image', 'App Screenshot') }}
+    <div class="btn-group btn-group-justified" id="top-row">
+        <span class="btn btn-default btn-file" id="image-btn">
+            Choose File 1&#42;{{ Form::file('image', ['required'=>'required', 'id'=>'image']) }}
+        </span>
+        <span class="btn btn-default btn-file" id="image2-btn">
+            Choose File 2{{ Form::file('image2', ['id'=>'image2']) }}
+        </span>
+    </div>
+    <div class="btn-group btn-group-justified" id="bottom-row">
+        <span class="btn btn-default btn-file" id="image3-btn">
+            Choose File 3{{ Form::file('image3', ['id'=>'image3']) }}
+        </span>
+        <span class="btn btn-default btn-file" id="image4-btn">
+            Choose File 4{{ Form::file('image4', ['id'=>'image4']) }}
+        </span>
+    </div>
+
     <br />
+    {{ Form::label('background', 'Page Background') }}
+    <table class="table" id="backgroung-table">
+        <tr>
+            <td>
+                <input checked="checked" name="back_option" type="radio" value="color" id="back-radio1">
+                <span class="btn btn-default btn-file" id="background-button">
+                    Choose Image{{ Form::file('background', ['id'=>'background-choose']) }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input name="back_option" type="radio" value="color" id="back-radio2">
+                <input type="text" id="color" class="form-control" data-control="wheel" value="#ffffff">
+            </td>
+        </tr>
+    </table>
+
     {{ Form::label('phone_color', 'Phone Color') }}<br />
-    {{ 'Black: '.Form::radio('phone_color', 'black', true, ['ng-model'=>'$phone_color']) }}<br />
-    {{ 'White: '.Form::radio('phone_color', 'white', ['ng-model'=>'$phone_color']) }}<br />
+
+    <select class="form-control" ng-model="phone_color" name="phone_color" ng-init="phone_color='black'">
+        <option value="black">Black</option>
+        <option value="white">White</option>
+        <option value="blue">Blue</option>
+    </select>
+
+    <br/>
 
     {{ Form::label('text_color', 'Page Text Color') }}<br />
-    {{ 'Black: '.Form::radio('text_color', 'black', true) }}<br />
-    {{ 'White: '.Form::radio('text_color', 'white') }}
+    <table class="table">
+        <tr><td><input checked="checked" name="text_color" type="radio" value="black" id="text_color" ng-model="text_color" ng-init="text_color='black'"> Black</td></tr>
+        <tr><td><input name="text_color" type="radio" value="white" id="text_color" ng-model="text_color"> White</td></tr>
+    </table>
 
-    {{ Form::submit('Create Page', ['class'=>'btn btn-primary']) }}
+    {{ Form::submit('Create Page', ['class'=>'btn btn-primary', 'id'=>'submit']) }}
 
     {{ Form::close() }}
 </div>
@@ -98,16 +159,18 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.20/angular.js"></script>
     <script src="/js/EditController.js"></script>
+    <script src="/color/jquery.minicolors.min.js"></script>
 
-    <script>
-        $(document).ready(function(){
-            if(save) {
-                $('.screen:gt(0)').hide();
-                setInterval(function () {
-                    $('.fadein > :first-child').fadeOut().next('.screen').fadeIn().end().appendTo('.fadein');
-                }, 5000);
-            }
-        });
-    </script>
+<!--    <script>-->
+<!--        $(document).ready(function(){-->
+<!--            if(save) {-->
+<!--                $('.screen:gt(0)').hide();-->
+<!--                setInterval(function () {-->
+<!--                    $('.fadein > :first-child').fadeOut().next('.screen').fadeIn().end().appendTo('.fadein');-->
+<!--                }, 5000);-->
+<!--            }-->
+<!--        });-->
+<!--    </script>-->
+
 
 @stop

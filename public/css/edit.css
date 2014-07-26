@@ -2,7 +2,7 @@
     position: relative;
     overflow: hidden;
 }
-.btn-file input[type=file] {
+.btn-file > input[type=file] {
     position: absolute;
     top: 0;
     right: 0;
@@ -22,7 +22,99 @@
     position: fixed;
     top:0px;
     left: 0px;
-    width: 200px;
+    width: 250px;
     bottom: 0px;
     overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 10px;
+    background: #3c4047;
+    z-index: 2000;
+}
+
+#wrapper{
+    position: fixed;
+    top: 0px;
+    left: 250px;
+    right: 0px;
+    bottom: 0px;
+    overflow-y: scroll;
+    z-index: 100;
+}
+
+.table{
+    background: white;
+    border-radius: 5px;
+}
+
+.table th:first-child, .table td:first-child {
+    border-top: none;
+}
+
+#title-input{
+    font-size: 1em;
+}
+
+#top-row span{
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#bottom-row span{
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+label{
+    color: white;
+    font-weight: 400;
+}
+
+input[type="type"]{
+    width: 100%;
+}
+
+#submit{
+    width: 100%;
+}
+
+textarea{
+    resize:vertical;
+}
+
+.btn-group-vertical{
+    width: 100%;
+}
+
+#background-button{
+    width: 90%;
+    float: right;
+}
+
+#color{
+    width: 90%;
+    float: right;
+    margin-top: -25px;
+}
+
+.minicolors-swatch{
+    left: 24px !important;
+    top: -22px !important;
+}
+
+#back-radio1{
+    position: relative;
+    top: 5px;
+}
+
+#back-radio2{
+    position: relative;
+
+}
+
+#background-table{
+    position: relative;
 }
