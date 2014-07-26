@@ -60,23 +60,26 @@
 <div id="side-bar">
     {{ Form::open(array('url' => 'create', 'files' => 'true')) }}
 
-    {{ Form::label('name', 'Unique Page Name&#42;') }}
-    {{ Form::text('name',null,['placeholder'=>'name', 'class'=>'form-control', 'required'=>'required']) }}
+    {{ Form::label('name', 'Unique Page Name&#42;') }}<br />
+    <span class="error-display">{{$errors->first('name')}}</span>
+    {{ Form::text('name',Input::old('name'),['placeholder'=>'name', 'class'=>'form-control', 'required'=>'required']) }}
     <br />
 
-    {{ Form::label('title', 'App Title&#42;') }}
+    {{ Form::label('title', 'App Title&#42;') }}<br />
+    <span class="error-display">{{$errors->first('title')}}</span>
     <input
         class="form-control"
         ng-model="title"
         name="title"
         type="text"
         id="title-input"
-        value="{{{ $title or 'App Name' }}}"
+        value="{{{ Input::old('title') or 'App Name' }}}"
         ng-init="title='App Name'"
         required
         >
     <br />
-    {{ Form::label('about', 'App Description&#42;') }}
+    {{ Form::label('about', 'App Description&#42;') }}<br />
+    <span class="error-display">{{$errors->first('about')}}</span>
     <textarea
         class="form-control"
         ng-model="about"
@@ -84,19 +87,22 @@
         cols="10"
         rows="6"
         id="about"
-        value="{{{ $about or 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua' }}}"
+        value="{{{ Input::old('about') or 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua' }}}"
         ng-init="about='Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua'"
         required
         >
     </textarea>
     <br />
-    {{ Form::label('store_url', 'App Store URL') }}
-    {{ Form::text('store_url',null,['placeholder'=>'http://apple.com/23423412412', 'class'=>'form-control']) }}
+    {{ Form::label('store_url', 'App Store URL') }}<br />
+    <span class="error-display">{{$errors->first('store_url')}}</span>
+    {{ Form::text('store_url',Input::old('store_url'),['placeholder'=>'http://apple.com/23423412412', 'class'=>'form-control']) }}
     <br />
-    {{ Form::label('copyright', 'Copyright&#42;') }}
-    {{ Form::text('copyright',null,['class'=>'form-control', 'required'=>'required']) }}
+    {{ Form::label('copyright', 'Copyright&#42;') }}<br />
+    <span class="error-display">{{$errors->first('copyright')}}</span>
+    {{ Form::text('copyright',Input::old('copyright'),['class'=>'form-control', 'required'=>'required']) }}
     <br />
-    {{ Form::label('image', 'App Screenshot') }}
+    {{ Form::label('image', 'App Screenshot') }}<br />
+    <span class="error-display">{{$errors->first('screenshot')}}</span>
     <div class="btn-group btn-group-justified" id="top-row">
         <span class="btn btn-default btn-file" id="image-btn">
             Choose File 1&#42;{{ Form::file('image', ['required'=>'required', 'id'=>'image']) }}
@@ -116,6 +122,7 @@
 
     <br />
     {{ Form::label('background', 'Page Background') }}
+    <span class="error-display">{{$errors->first('background')}}</span>
     <table class="table" id="backgroung-table">
         <tr>
             <td>
@@ -128,13 +135,13 @@
         <tr>
             <td>
                 <input checked="checked" name="back_option" type="radio" value="color" id="back-radio2">
-                <input type="text" name="background_color" id="color" class="form-control" data-control="wheel" value="#ffffff">
+                <input type="text" name="background_color" id="color" class="form-control" data-control="wheel" value="{{{ Input::old('email') or '#ffffff' }}}">
             </td>
         </tr>
     </table>
 
     {{ Form::label('phone_color', 'Phone Color') }}<br />
-
+    <span class="error-display">{{$errors->first('phone_color')}}</span>
     <select class="form-control" ng-model="phone_color" name="phone_color" ng-init="phone_color='black'">
         <option value="black">Black</option>
         <option value="white">White</option>
@@ -144,6 +151,7 @@
     <br/>
 
     {{ Form::label('text_color', 'Page Text Color') }}<br />
+    <span class="error-display">{{$errors->first('text_color')}}</span>
     <table class="table">
         <tr><td><input checked="checked" name="text_color" type="radio" value="black" id="text_color1"> Black</td></tr>
         <tr><td><input name="text_color" type="radio" value="white" id="text_color2"> White</td></tr>

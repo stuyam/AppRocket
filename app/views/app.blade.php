@@ -7,11 +7,18 @@
 @section('content')
 <style>
     body{
-        background: url(backgrounds/{{{ $background }}}) no-repeat center center fixed;
-        -webkit-background-size: cover;
-        -moz-background-size: cover;
-        -o-background-size: cover;
-        background-size: cover;
+        <? if(substr($background, 0, 1) === '#')
+        {
+            echo 'background:'.$background;
+        }
+        else
+        {
+            echo "background: url(backgrounds/$background) no-repeat center center fixed;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            background-size: cover;";
+        } ?>
     }
 </style>
 <div class="container">

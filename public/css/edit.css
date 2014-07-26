@@ -127,3 +127,9 @@ textarea{
 #background-table{
     position: relative;
 }
+
+.error-display{
+    color: #F78181 !important;
+    width: 100%;
+    margin-bottom: 10px;
+}

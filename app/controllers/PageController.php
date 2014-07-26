@@ -48,7 +48,7 @@ class PageController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Response::make($validator->messages());
+            return Redirect::to('/create')->withInput()->withErrors($validator);
         }
 
         if(Input::get('back_option') == 'color')
