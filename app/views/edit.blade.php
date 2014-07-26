@@ -19,8 +19,8 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-push-6">
-                    <h1 id="title" class="@{{ text_color }}">@{{ title }}</h1>
-                    <p class="@{{ text_color }}">
+                    <h1 id="title"">@{{ title }}</h1>
+                    <p>
                         @{{ about }}
                     </p>
                     <?php if (empty($store_url))
@@ -94,7 +94,7 @@
     {{ Form::text('store_url',null,['placeholder'=>'http://apple.com/23423412412', 'class'=>'form-control']) }}
     <br />
     {{ Form::label('copyright', 'Copyright&#42;') }}
-    {{ Form::text('copyright',null,['class'=>'form-control']) }}
+    {{ Form::text('copyright',null,['class'=>'form-control', 'required'=>'required']) }}
     <br />
     {{ Form::label('image', 'App Screenshot') }}
     <div class="btn-group btn-group-justified" id="top-row">
@@ -119,7 +119,7 @@
     <table class="table" id="backgroung-table">
         <tr>
             <td>
-                <input checked="checked" name="back_option" type="radio" value="color" id="back-radio1">
+                <input name="back_option" type="radio" value="color" id="back-radio1">
                 <span class="btn btn-default btn-file" id="background-button">
                     Choose Image{{ Form::file('background', ['id'=>'background-choose']) }}
                 </span>
@@ -127,8 +127,8 @@
         </tr>
         <tr>
             <td>
-                <input name="back_option" type="radio" value="color" id="back-radio2">
-                <input type="text" id="color" class="form-control" data-control="wheel" value="#ffffff">
+                <input checked="checked" name="back_option" type="radio" value="color" id="back-radio2">
+                <input type="text" name="background_color" id="color" class="form-control" data-control="wheel" value="#ffffff">
             </td>
         </tr>
     </table>
@@ -145,8 +145,8 @@
 
     {{ Form::label('text_color', 'Page Text Color') }}<br />
     <table class="table">
-        <tr><td><input checked="checked" name="text_color" type="radio" value="black" id="text_color" ng-model="text_color" ng-init="text_color='black'"> Black</td></tr>
-        <tr><td><input name="text_color" type="radio" value="white" id="text_color" ng-model="text_color"> White</td></tr>
+        <tr><td><input checked="checked" name="text_color" type="radio" value="black" id="text_color1"> Black</td></tr>
+        <tr><td><input name="text_color" type="radio" value="white" id="text_color2"> White</td></tr>
     </table>
 
     {{ Form::submit('Create Page', ['class'=>'btn btn-primary', 'id'=>'submit']) }}

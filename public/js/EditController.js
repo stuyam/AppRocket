@@ -2,12 +2,6 @@ function EditController($scope){
 
 }
 
-
-
-//$('radio[name="text_color"]').click(function(){
-//    $('#device').attr('src', $(this).val() + '.png');
-//});
-
 $("#image").change(function (e) {
     if(this.disabled) return alert('File upload not supported!');
     var F = this.files;
@@ -29,11 +23,35 @@ $("#image4").change(function () {
 
 $("#background-choose").change(function () {
     $('#background-button').addClass('btn-success');
-    $("#radio_1").prop("checked", true)
-    $("#radio_1").prop("checked", true)
+    $("#back-radio1").prop("checked", true);
+    $("#back-radio2").prop("checked", false);
 });
 
+$('#color').click(function(){
+    $("#back-radio1").prop("checked", false);
+    $("#back-radio2").prop("checked", true);
+});
 
+$('#text_color1').click(function(){
+    $('.container').addClass('black');
+    $('.container').removeClass('white');
+});
+
+$('#text_color2').click(function(){
+    $('.container').addClass('white');
+    $('.container').removeClass('black');
+});
+
+$('#store_url').change(function(){
+   if( $(this).val().length > 0 )
+   {
+       $('#store').attr('src', '/img/appstore.png');
+   }
+   else
+   {
+       $('#store').attr('src', '/img/appstore-soon.png');
+   }
+});
 
 function readImage(file) {
     var reader = new FileReader();
@@ -80,6 +98,28 @@ $(document).ready( function() {
     $('#color').minicolors({
         change: function(hex, opacity) {
             $('#wrapper').css('background', hex);
+
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            var red = parseInt(result[1], 16);
+            var green = parseInt(result[2], 16);
+            var blue = parseInt(result[3], 16);
+
+            console.log(red+green+blue);
+
+            if ((red*0.299 + green*0.587 + blue*0.114) > 186)
+            {
+                $("#text_color1").prop("checked", true);
+                $("#text_color2").prop("checked", false);
+                $('.container').addClass('black');
+                $('.container').removeClass('white');
+            }
+            else
+            {
+                $("#text_color1").prop("checked", false);
+                $("#text_color2").prop("checked", true);
+                $('.container').addClass('white');
+                $('.container').removeClass('black');
+            }
         }
     });
 });

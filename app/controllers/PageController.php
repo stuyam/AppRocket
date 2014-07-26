@@ -16,8 +16,10 @@ class PageController extends \BaseController {
         $store_url = Input::get('store_url');
         $phone_color = Input::get('phone_color');
         $text_color = Input::get('text_color');
+        $copyright = Input::get('copyright');
         $imageMIME = Input::file('image');
         $backgroundMIME = Input::file('background');
+        $background_color = Input::get('background_color');
 
         $info = [
             'name'        => $name,
@@ -25,18 +27,22 @@ class PageController extends \BaseController {
             'about'       => $about,
             'phone_color' => $phone_color,
             'text_color'  => $text_color,
+            'copyright'   => $copyright,
             'screenshot'  => $imageMIME,
-            'background'  => $backgroundMIME
+            'background'  => $backgroundMIME,
+            'store_url'   => $store_url,
         ];
         $validator = Validator::make($info,
             array(
-                'name'        => 'required|min:3|max:255|unique:pages',
+                'name'        => 'required|min:3|max:255|unique:pages|alpha_dash',
                 'title'       => 'required',
                 'about'       => 'required',
                 'phone_color' => 'required',
                 'text_color'  => 'required',
-                'screenshot'  => 'required|mimes:jpeg,png,gif,jpg',
-                'background'  => 'required|mimes:jpeg,png,gif,jpg'
+                'copyright'   => 'required',
+                'screenshot'  => 'required|image',
+                'background'  => 'image',
+                'store_url'   => 'url',
             )
         );
 
@@ -45,29 +51,36 @@ class PageController extends \BaseController {
             return Response::make($validator->messages());
         }
 
-        $imageID = md5(uniqid('imageID', true)).Input::file('image')->getClientOriginalExtension();
-        $backgroundID = md5(uniqid('backgroundID', true)).Input::file('background')->getClientOriginalExtension();
+        if(Input::get('back_option') == 'color')
+        {
+            if(substr($background_color, 0, 1) === '#')
+            {
+                $background = $background_color;
+            }
+            else
+            {
+                $background = '#'.$background_color;
+            }
+        }
+        else
+        {
+            $background = md5(uniqid('backgroundID', true)).'.'.Input::file('background')->getClientOriginalExtension();
+            Input::file('background')->move(public_path().'/backgrounds', $background);
+        }
+
+        $imageID = md5(uniqid('imageID', true)).'.'.Input::file('image')->getClientOriginalExtension();
 
         Input::file('image')->move(public_path().'/screens', $imageID);
-        Input::file('background')->move(public_path().'/backgrounds', $backgroundID);
 
-        if(Input::hasFile('image2'))
+        $optionals = ['image2', 'image3', 'image4'];
+        foreach($optionals as $o)
         {
-            $image2ID = md5(uniqid('imageID', true)).Input::file('image2')->getClientOriginalExtension();
-            Input::file('image2')->move(public_path().'/screens', $image2ID);
-            $imageID = $imageID.','.$image2ID;
-        }
-        if(Input::hasFile('image3'))
-        {
-            $image3ID = md5(uniqid('imageID', true)).Input::file('image3')->getClientOriginalExtension();
-            Input::file('image3')->move(public_path().'/screens', $image3ID);
-            $imageID = $imageID.','.$image3ID;
-        }
-        if(Input::hasFile('image4'))
-        {
-            $image4ID = md5(uniqid('imageID', true)).Input::file('image4')->getClientOriginalExtension();
-            Input::file('image4')->move(public_path().'/screens', $image4ID);
-            $imageID = $imageID.','.$image4ID;
+            if(Input::hasFile($o))
+            {
+                $i = md5(uniqid('imageID', true)).Input::file($o)->getClientOriginalExtension();
+                Input::file($o)->move(public_path().'/screens', $i);
+                $imageID .= ','.$o;
+            }
         }
 
         $page = new Page;
@@ -76,7 +89,8 @@ class PageController extends \BaseController {
         $page->title       = $title;
         $page->about       = $about;
         $page->image       = $imageID;
-        $page->background  = $backgroundID;
+        $page->background  = $background;
+        $page->copyright   = $copyright;
         $page->store_url   = $store_url;
         $page->phone_color = $phone_color;
         $page->text_color  = $text_color;

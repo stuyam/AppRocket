@@ -66,6 +66,15 @@
     border-top-right-radius: 0px;
     padding-top: 10px;
     padding-bottom: 10px;
+    border-top: 0px;
+}
+
+#top-row span:first-child{
+    border-right: 0px;
+}
+
+#bottom-row span:first-child{
+    border-right: 0px;
 }
 
 label{

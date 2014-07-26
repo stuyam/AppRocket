@@ -21,6 +21,7 @@ class CreatePagesTable extends Migration {
             $table->text('about');
             $table->text('image');
             $table->string('background',40);
+            $table->string('copyright');
             $table->text('store_url')->nullable();
             $table->string('phone_color', 20);
             $table->string('text_color', 20);
