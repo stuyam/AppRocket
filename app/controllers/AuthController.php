@@ -42,7 +42,7 @@ class AuthController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Response::make($validator->messages());
+            return Redirect::to('/sign-up')->withInput()->withErrors($validator);
         }
 
         $hash = Hash::make($password);
@@ -55,6 +55,30 @@ class AuthController extends \BaseController {
 
         Auth::attempt(array('email' => $email, 'password' => $password));
 
+        return Redirect::to('/billing');
+    }
+
+    public function billing()
+    {
+        return View::make('stripe');
+    }
+
+    public function billingPost()
+    {
+        $user = Auth::user();
+        $token = Input::get('stripeToken');
+
+        $validator = Validator::make(['card'=>$token],['card' => 'required']);
+
+        if ($validator->fails())
+        {
+            return Redirect::to('/billing')->withInput()->withErrors($validator);
+        }
+
+
+        $user->subscription(Input::get('subscription'))->create($token, [
+            'email' => Auth::user()->email
+        ]);
         return Redirect::to('/dashboard');
     }
 

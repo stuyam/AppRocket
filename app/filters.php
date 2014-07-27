@@ -88,3 +88,15 @@ Route::filter('csrf', function()
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
+
+
+
+//Stripe subscription filter
+
+Route::filter('subscribed', function()
+{
+    if (Auth::user() && ! Auth::user()->subscribed())
+    {
+        return Redirect::to('billing');
+    }
+});
