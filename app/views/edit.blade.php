@@ -7,14 +7,6 @@
 @stop
 
 @section('content')
-    <style>
-        body{
-            -webkit-background-size: cover;
-            -moz-background-size: cover;
-            -o-background-size: cover;
-            background-size: cover;
-        }
-    </style>
     <div id="wrapper">
         <div class="container">
             <div class="row">

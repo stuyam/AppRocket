@@ -9,3 +9,6 @@ Thumbs.db
 /.idea 
 /public/screens
 /public/backgrounds
+.idea/scopes/scope_settings.xml
+
+.idea/workspace.xml

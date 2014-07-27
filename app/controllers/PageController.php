@@ -87,7 +87,7 @@ class PageController extends \BaseController {
 
         $page = new Page;
         $page->user_id     = $userid;
-        $page->name        = $name;
+        $page->name        = strtolower($name);
         $page->title       = $title;
         $page->about       = $about;
         $page->image       = $imageID;
