@@ -58,30 +58,6 @@ class AuthController extends \BaseController {
         return Redirect::to('/billing');
     }
 
-    public function billing()
-    {
-        return View::make('stripe');
-    }
-
-    public function billingPost()
-    {
-        $user = Auth::user();
-        $token = Input::get('stripeToken');
-
-        $validator = Validator::make(['card'=>$token],['card' => 'required']);
-
-        if ($validator->fails())
-        {
-            return Redirect::to('/billing')->withInput()->withErrors($validator);
-        }
-
-
-        $user->subscription(Input::get('subscription'))->create($token, [
-            'email' => Auth::user()->email
-        ]);
-        return Redirect::to('/dashboard');
-    }
-
     public function logout()
     {
         Auth::logout();

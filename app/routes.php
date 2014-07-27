@@ -25,9 +25,11 @@ Route::get('/logout', 'AuthController@logout');
 
 Route::group(array('before' => 'auth'), function()
 {
-    Route::get('/billing', 'AuthController@billing');
+    Route::get('/billing', 'BillingController@billing');
 
-    Route::post('/billing', 'AuthController@billingPost');
+    Route::post('/billing/starter', 'BillingController@billingStarter');
+
+    Route::post('/billing/pro', 'BillingController@billingPro');
 });
 
 Route::group(array('before' => 'auth|subscribed'), function()
@@ -37,14 +39,6 @@ Route::group(array('before' => 'auth|subscribed'), function()
     Route::get('/create', 'PageController@create');
 
     Route::post('/create', 'PageController@createMake');
-});
-
-Route::get('/stripe', function(){
-    return View::make('stripe-test');
-});
-
-Route::post('/payment', function(){
-   return Input::all();
 });
 
 Route::get('/{name}', 'PageController@view');

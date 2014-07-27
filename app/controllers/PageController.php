@@ -48,7 +48,7 @@ class PageController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::to('/create')->withInput()->withErrors($validator);
+            return Redirect::to('register')->withInput()->withErrors($validator);
         }
 
         if(Input::get('back_option') == 'color')
@@ -109,6 +109,13 @@ class PageController extends \BaseController {
         {
             return Response::make('404 Page Not Found!');
         }
+        $user = User::where('id', '=', $page->user_id)->first();
+
+        if ( ! $user->subscribed())
+        {
+            return Response::make('404 Page Not Found!');
+        }
+
         return View::make('app', $page);
     }
 

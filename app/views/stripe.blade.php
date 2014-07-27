@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<form action="" method="POST">
+<form action="billing/starter" method="POST">
     <script
         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
         data-key="pk_test_4Te47S8wjPLWUR2HsfadSWJ8"
@@ -23,10 +23,9 @@
         data-label="Starter Account"
         data-image="/128x128.png">
     </script>
-    <input type="hidden" value="starter" name="subscription" />
 </form>
 
-<form action="" method="POST">
+<form action="billing/pro" method="POST">
     <script
         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
         data-key="pk_test_4Te47S8wjPLWUR2HsfadSWJ8"
@@ -38,7 +37,6 @@
         data-label="Pro Account"
         data-image="/128x128.png">
     </script>
-    <input type="hidden" value="pro" name="subscription" />
 </form>
 
 </body>
