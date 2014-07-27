@@ -15,7 +15,7 @@ class AuthController extends \BaseController {
         {
             return Redirect::to('/dashboard');
         }
-        return Reponse::make('failed to log you in');
+        return Response::make('failed to log you in');
     }
 
     public function signUp()

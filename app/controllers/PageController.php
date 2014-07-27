@@ -48,7 +48,9 @@ class PageController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::to('register')->withInput()->withErrors($validator);
+            //$validator->getMessageBag()->add('name', 'Name already exists!');
+            //dd($validator->messages());
+            return Redirect::to('/create')->withInput()->withErrors($validator);
         }
 
         if(Input::get('back_option') == 'color')
