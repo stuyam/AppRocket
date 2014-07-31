@@ -62,4 +62,14 @@
         </div>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        if(save) {
+            $('.screen:gt(0)').hide();
+            setInterval(function () {
+                $('.fadein > :first-child').fadeOut().next('.screen').fadeIn().end().appendTo('.fadein');
+            }, 5000);
+        }
+    });
+</script>
 @stop

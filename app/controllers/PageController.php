@@ -53,7 +53,7 @@ class PageController extends \BaseController {
             return Redirect::to('/create')->withInput()->withErrors($validator);
         }
 
-        if(Input::get('back_option') == 'color')
+        if(Input::get('back_option') === 'color')
         {
             if(substr($background_color, 0, 1) === '#')
             {
@@ -81,7 +81,7 @@ class PageController extends \BaseController {
             {
                 $i = md5(uniqid('imageID', true)).Input::file($o)->getClientOriginalExtension();
                 Input::file($o)->move(public_path().'/screens', $i);
-                $imageID .= ','.$o;
+                $imageID .= ','.$i;
             }
         }
 

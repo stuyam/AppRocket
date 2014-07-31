@@ -30,8 +30,7 @@ class BillingController extends \BaseController {
         }
 
         $user->subscription($plan)->create($token, [
-            'email'  => Auth::user()->email,
-            'userid' => Auth::user()->id
+            'email'  => Auth::user()->email
         ]);
         return Redirect::to('/dashboard');
     }

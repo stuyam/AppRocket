@@ -16,14 +16,18 @@ body{
     width: 100%;
 }
 
-form{
-    position: relative;
-    margin: auto;
-    width: 50%;
-}
-
 .navbar{
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
 }
 
+.stripe-button-el{
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+h2, h3{
+    width: 100%;
+    text-align: center;
+}

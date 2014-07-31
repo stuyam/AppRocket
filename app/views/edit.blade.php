@@ -118,7 +118,7 @@
     <table class="table" id="backgroung-table">
         <tr>
             <td>
-                <input name="back_option" type="radio" value="color" id="back-radio1">
+                <input name="back_option" type="radio" value="image" id="back-radio1">
                 <span class="btn btn-default btn-file" id="background-button">
                     Choose Image{{ Form::file('background', ['id'=>'background-choose']) }}
                 </span>
@@ -136,8 +136,13 @@
     <span class="error-display">{{$errors->first('phone_color')}}</span>
     <select class="form-control" ng-model="phone_color" name="phone_color" ng-init="phone_color='black'">
         <option value="black">Black</option>
-        <option value="white">White</option>
+        <option value="silver">Silver</option>
+        <option value="gold">Gold</option>
         <option value="blue">Blue</option>
+        <option value="green">Green</option>
+        <option value="red">Red</option>
+        <option value="yellow">Yellow</option>
+        <option value="white">White</option>
     </select>
 
     <br/>
