@@ -7,10 +7,10 @@ class BillingController extends \BaseController {
         return View::make('billing.pick-billing');
     }
 
-    public function billingStarter()
-    {
-        return $this->biller('starter');
-    }
+//    public function billingStarter()
+//    {
+//        return $this->biller('starter');
+//    }
 
     public function billingPro()
     {

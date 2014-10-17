@@ -27,13 +27,13 @@ Route::group(array('before' => 'auth'), function()
 {
     Route::get('/billing', ['as'=>'pick.billing', 'uses'=>'BillingController@billing']);
 
-    Route::post('/billing/free', ['as'=>'billing.starter','uses'=>'BillingController@billingStarter']);
+//    Route::post('/billing/free', ['as'=>'billing.starter','uses'=>'BillingController@billingStarter']);
 
     Route::post('/billing/pro', ['as'=>'billing.pro', 'uses'=>'BillingController@billingPro']);
-});
-
-Route::group(array('before' => 'auth|subscribed'), function()
-{
+//});
+//
+//Route::group(array('before' => 'auth|subscribed'), function()
+//{
     Route::get('/dashboard', ['as'=>'dashboard', 'uses'=>'AuthController@dashboard']);
 
     Route::get('/create', 'PageController@create');
