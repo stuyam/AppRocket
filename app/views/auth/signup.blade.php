@@ -16,9 +16,9 @@
     @include('auth._form')
 
     <div class="form-group">
-      {{  Form::submit('Sign Up', ['class'=>'btn btn-primary']) }}
+      {{ Form::submit('Sign Up', ['class'=>'btn btn-primary']) }}
     </div>
 
-  {{  Form::close() }}
+  {{ Form::close() }}
 </div>
 @stop
