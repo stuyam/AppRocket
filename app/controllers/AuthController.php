@@ -4,7 +4,7 @@ class AuthController extends \BaseController {
 
     public function login()
     {
-        return View::make('login');
+        return View::make('auth/login');
     }
 
     public function loginPost()
@@ -20,7 +20,7 @@ class AuthController extends \BaseController {
 
     public function signUp()
     {
-        return View::make('sign-up');
+        return View::make('auth/signup');
     }
 
     public function signUpPost()
@@ -42,7 +42,7 @@ class AuthController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::to('/sign-up')->withInput()->withErrors($validator);
+            return Redirect::to('auth/signup')->withInput()->withErrors($validator);
         }
 
         $hash = Hash::make($password);

@@ -13,13 +13,13 @@
 
 Route::get('/', 'AuthController@signUp');
 
-Route::get('/login', 'AuthController@login');
+Route::get('/login', ['as'=>'login', 'uses'=>'AuthController@login']);
 
-Route::post('/login', 'AuthController@loginPost');
+Route::post('/login', ['as'=>'post.login', 'uses'=>'AuthController@loginPost']);
 
-Route::get('/sign-up', 'AuthController@signUp');
+Route::get('/signup', ['as'=>'signup', 'uses'=>'AuthController@signUp']);
 
-Route::post('/sign-up', 'AuthController@signUpPost');
+Route::post('/signup', ['as'=>'post.signup', 'uses'=>'AuthController@signUpPost']);
 
 Route::get('/logout', 'AuthController@logout');
 
