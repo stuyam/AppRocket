@@ -95,8 +95,8 @@ Route::filter('csrf', function()
 
 Route::filter('subscribed', function()
 {
-    if (Auth::user() && ! Auth::user()->subscribed())
+    if (Auth::user() && ! Auth::user()->subscribed()) //TODO: Make filter check "OR" if a user has a free plan. Also create a plan type in the user table
     {
-        return Redirect::to('billing');
+        return Redirect::route('pick.billing');
     }
 });

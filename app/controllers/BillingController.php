@@ -4,7 +4,7 @@ class BillingController extends \BaseController {
 
     public function billing()
     {
-        return View::make('stripe');
+        return View::make('billing.pick-billing');
     }
 
     public function billingStarter()
@@ -26,12 +26,12 @@ class BillingController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::to('/billing')->withInput()->withErrors($validator);
+            return Redirect::route('billing')->withInput()->withErrors($validator);
         }
 
         $user->subscription($plan)->create($token, [
             'email'  => Auth::user()->email
         ]);
-        return Redirect::to('/dashboard');
+        return Redirect::route('dashboard');
     }
 }

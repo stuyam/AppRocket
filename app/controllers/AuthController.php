@@ -11,6 +11,23 @@ class AuthController extends \BaseController {
     {
         $email = Input::get('email');
         $password = Input::get('password');
+        $info = [
+          'password' => $password,
+          'email' => $email
+        ];
+
+        $validator = Validator::make($info,
+          array(
+            'password' => 'required',
+            'email' => 'required|email'
+          )
+        );
+
+        if ($validator->fails())
+        {
+            return Redirect::route('login')->withInput()->withErrors($validator);
+        }
+
         if (Auth::attempt(array('email' => $email, 'password' => $password)))
         {
             return Redirect::to('/dashboard');
@@ -42,7 +59,7 @@ class AuthController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::to('auth/signup')->withInput()->withErrors($validator);
+            return Redirect::route('signup')->withInput()->withErrors($validator);
         }
 
         $hash = Hash::make($password);
@@ -55,7 +72,7 @@ class AuthController extends \BaseController {
 
         Auth::attempt(array('email' => $email, 'password' => $password));
 
-        return Redirect::to('/billing');
+        return Redirect::route('billing');
     }
 
     public function logout()

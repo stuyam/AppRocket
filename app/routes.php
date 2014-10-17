@@ -21,20 +21,20 @@ Route::get('/signup', ['as'=>'signup', 'uses'=>'AuthController@signUp']);
 
 Route::post('/signup', ['as'=>'post.signup', 'uses'=>'AuthController@signUpPost']);
 
-Route::get('/logout', 'AuthController@logout');
+Route::get('/logout', ['as'=>'logout', 'uses'=>'AuthController@logout']);
 
 Route::group(array('before' => 'auth'), function()
 {
-    Route::get('/billing', 'BillingController@billing');
+    Route::get('/billing', ['as'=>'pick.billing', 'uses'=>'BillingController@billing']);
 
-    Route::post('/billing/starter', 'BillingController@billingStarter');
+    Route::post('/billing/free', ['as'=>'billing.starter','uses'=>'BillingController@billingStarter']);
 
-    Route::post('/billing/pro', 'BillingController@billingPro');
+    Route::post('/billing/pro', ['as'=>'billing.pro', 'uses'=>'BillingController@billingPro']);
 });
 
 Route::group(array('before' => 'auth|subscribed'), function()
 {
-    Route::get('/dashboard', 'AuthController@dashboard');
+    Route::get('/dashboard', ['as'=>'dashboard', 'uses'=>'AuthController@dashboard']);
 
     Route::get('/create', 'PageController@create');
 

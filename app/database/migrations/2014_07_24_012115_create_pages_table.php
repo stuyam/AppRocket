@@ -17,15 +17,16 @@ class CreatePagesTable extends Migration {
             $table->increments('id');
             $table->integer('user_id');
             $table->string('name')->unique();
-            $table->string('title');
-            $table->text('about');
-            $table->text('image');
-            $table->string('background',40);
-            $table->string('copyright');
-            $table->text('store_url')->nullable();
-            $table->string('phone_color', 20);
-            $table->string('text_color', 20);
-            $table->string('custom_url')->nullable();
+            $table->binary('data');
+//            $table->string('title');
+//            $table->text('about');
+//            $table->text('image');
+//            $table->string('background',40);
+//            $table->string('copyright');
+//            $table->text('store_url')->nullable();
+//            $table->string('phone_color', 20);
+//            $table->string('text_color', 20);
+//            $table->string('custom_url')->nullable();
             $table->timestamps();
         });
 	}

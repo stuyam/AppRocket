@@ -22,10 +22,10 @@ return array(
 
 		'mysql' => array(
 			'driver'    => 'mysql',
-			'host'      => '127.0.0.1',
-			'database'  => 'approcket',
-			'username'  => 'root',
-			'password'  => 'root',
+			'host'      => 'localhost',
+			'database'  => 'homestead',
+			'username'  => 'homestead',
+			'password'  => 'secret',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

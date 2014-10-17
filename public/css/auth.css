@@ -46,3 +46,7 @@ h2{
 .btn{
     width: 100%;
 }
+
+.error-display{
+    color: red;
+}
