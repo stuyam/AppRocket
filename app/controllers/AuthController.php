@@ -67,12 +67,12 @@ class AuthController extends \BaseController {
         $user = new User;
         $user->email = $email;
         $user->password = $hash;
-        $user->pages = 0;
+        $user->plan = 'free';
         $user->save();
 
         Auth::attempt(array('email' => $email, 'password' => $password));
 
-        return Redirect::route('billing');
+        return Redirect::route('pick.billing');
     }
 
     public function logout()
