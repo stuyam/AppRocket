@@ -9,9 +9,12 @@ class PageController extends \BaseController {
 
 	public function editExisting($name)
   {
-    if ($page = Page::whereName($name)->first())
-      $page['data'] = json_decode($page['data'], true);
-		  return View::make('edit', ['page_data'=>$page]);
+    if ($page = Page::whereName($name)->first()) {
+      $data = json_decode($page['data'], true);
+      $data['name'] = $name;
+      $data['id'] = $page->id;
+      return View::make('edit', ['old_data' => $data]);
+    }
     return '404';
 	}
 
@@ -19,16 +22,22 @@ class PageController extends \BaseController {
   {
     $userid = Auth::id();
     $all_post = Input::all();
+    $id = Input::has('id') ? Input::get('id') : false;
+    //Check to make sure the person owns the page they are trying to edit
+    if( ! Page::where('user_id', $userid)->where('id', $id)->first() && $id != false)
+    {
+      return "You don't have permission to change this App Rocket Page";
+    }
     $validator = Validator::make($all_post,
-        array(
-            'name'              => 'required|min:3|max:255|unique:pages|alpha_dash',
-            'title'             => 'required',
-            'about'             => 'required',
-            'text_color'        => 'required',
-//            'screenshot'        => 'required|image',
-            'background_image'  => 'image',
-            'store_url'         => 'url',
-        )
+      [
+        'name'              => "required|min:3|max:255|unique:pages,name,$id|alpha_dash",
+        'title'             => 'required',
+        'about'             => 'required',
+        'text_color'        => 'required',
+//        'screenshot'        => 'required|image',
+        'background_image'  => 'image',
+        'app_store'         => 'url',
+      ]
     );
 
     if ($validator->fails())
@@ -44,7 +53,7 @@ class PageController extends \BaseController {
         $screens[] = $this->getScreens(Input::file($i));
     }
 
-    $this->savePage($userid, $all_post, $background, $images);
+    $this->savePage($id, $userid, $all_post, $background, $images);
 
     return Redirect::to("/$all_post[name]");
   }
@@ -53,13 +62,13 @@ class PageController extends \BaseController {
     $page = Page::where('name', '=', $name)->first();
     if( ! $page)
     {
-        return Response::make('404 Page Not Found!');
+      return Response::make('404 Page Not Found!');
     }
     $user = User::where('id', '=', $page->user_id)->first();
 
     if ( ! $user->subscribed())
     {
-        return Response::make('404 Page Not Found!');
+      return Response::make('404 Page Not Found!');
     }
 
     $page['data'] = json_decode($page['data'], true);
@@ -88,7 +97,7 @@ class PageController extends \BaseController {
 
   }
 
-  private function savePage($userid, $data_input, $background, $images){
+  private function savePage($id, $userid, $data_input, $background, $images){
     $data = array_intersect_key($data_input, array_flip([
       'title',
       'about',
@@ -101,10 +110,15 @@ class PageController extends \BaseController {
     $data['background'] = $background;
     $data['images']     = $images;
 
-    $page = new Page;
-    $page->user_id      = $userid;
-    $page->name         = strtolower($data_input['name']);
-    $page->data         = json_encode($data);
+    if( $id ){
+      $page = Page::find($id);
+    }
+    else {
+      $page = new Page;
+      $page->user_id = $userid;
+    }
+    $page->name = strtolower($data_input['name']);
+    $page->data = json_encode($data);
     $page->save();
   }
 }
