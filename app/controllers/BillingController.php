@@ -32,6 +32,12 @@ class BillingController extends \BaseController {
         $user->subscription($plan)->create($token, [
             'email'  => Auth::user()->email
         ]);
+
+        //Save plan to user table to distinguish between free and pro users
+        $person = User::find(Auth::id());
+        $person->plan = $plan;
+        $person->save();
+
         return Redirect::route('dashboard');
     }
 }
