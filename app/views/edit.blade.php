@@ -51,7 +51,7 @@
 
 <div id="side-bar">
     <?php
-    $value = ['name', 'title', 'about', 'app_store', 'copyright', 'phone_color'];
+    $value = ['name', 'title', 'about', 'app_store', 'copyright', 'phone_color', 'background', 'text_color'];
     foreach($value as $v)
     {
       if( Input::has($v) )
@@ -75,7 +75,7 @@
         @include('edit.phone_color')
         @include('edit.text_color')
 
-        {{ Form::submit('Create Page', ['class'=>'btn btn-primary', 'id'=>'submit']) }}
+        {{ Form::submit('Save Page', ['class'=>'btn btn-primary', 'id'=>'submit']) }}
 
     {{ Form::close() }}
 </div>
