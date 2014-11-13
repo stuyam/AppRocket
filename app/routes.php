@@ -39,7 +39,7 @@ Route::group(['before' => 'auth'], function()
     Route::get('/dashboard', ['as'=>'dashboard', 'uses'=>'AuthController@dashboard']);
 
     Route::get('/edit', ['as'=>'edit', 'uses'=>'PageController@edit']);
-    Route::get('/edit/{id?}', ['as'=>'edit.existing', 'uses'=>'PageController@editExisting']);
+    Route::get('/{id?}/edit', ['as'=>'edit.existing', 'uses'=>'PageController@editExisting']);
     Route::post('/edit', ['as'=>'post.edit', 'uses'=>'PageController@editPost']);
 });
 
