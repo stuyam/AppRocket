@@ -42,7 +42,7 @@ class PageController extends \BaseController {
 
     if ($validator->fails())
     {
-        return Redirect::route('edit')->withInput()->withErrors($validator);
+        return Redirect::back()->withInput()->withErrors($validator);
     }
 
     $background = $this->getBackground($all_post, Input::file('background'));
