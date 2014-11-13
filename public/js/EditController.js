@@ -1,7 +1,3 @@
-function EditController($scope){
-
-}
-
 $('#background-choose').change(function (e) {
     if(this.disabled) return alert('File upload not supported!');
     var F = this.files;
@@ -67,11 +63,11 @@ function readImage(file) {
     reader.onload = function(_file) {
         image.src    = _file.target.result;              // url.createObjectURL(file);
         image.onload = function() {
-            var w = this.width,
-                h = this.height,
-                t = file.type,                           // ext only: // file.type.split('/')[1],
-                n = file.name,
-                s = ~~(file.size/1024) +'KB';
+            //var w = this.width,
+            //    h = this.height,
+            //    t = file.type,                           // ext only: // file.type.split('/')[1],
+            //    n = file.name,
+            //    s = ~~(file.size/1024) +'KB';
             $('#fade').append('<img src="'+ this.src +'"class="screen"><br>');
         };
         image.onerror= function() {
@@ -88,11 +84,11 @@ function readImageBackground(file) {
     reader.onload = function(_file) {
         image.src    = _file.target.result;              // url.createObjectURL(file);
         image.onload = function() {
-            var w = this.width,
-                h = this.height,
-                t = file.type,                           // ext only: // file.type.split('/')[1],
-                n = file.name,
-                s = ~~(file.size/1024) +'KB';
+            //var w = this.width,
+            //    h = this.height,
+            //    t = file.type,                           // ext only: // file.type.split('/')[1],
+            //    n = file.name,
+            //    s = ~~(file.size/1024) +'KB';
             $('#wrapper').css('background','url('+this.src +') no-repeat center center fixed');
             $('#wrapper').css('background-size','cover');
         };
