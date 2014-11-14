@@ -43,7 +43,8 @@ class PageController extends \BaseController {
     if( $this->page->canEditName($user_id, $id) )
       return "You don't have permission to modify this App Rocket Page";
 
-    $this->validate->edit($post, $id);
+    if( $validation = $this->validate->edit($post, $id) )
+      return Redirect::back()->withInput()->withErrors($validation);
 
     $background = $this->getBackground($post, $background_image);
 
