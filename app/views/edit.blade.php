@@ -76,6 +76,7 @@
         @include('edit.text_color')
 
         {{ Form::submit('Save Page', ['class'=>'btn btn-primary', 'id'=>'submit']) }}
+        {{ link_to_route('dashboard', 'Cancel', null, ['class'=>'btn btn-default']) }}
 
     {{ Form::close() }}
 </div>
