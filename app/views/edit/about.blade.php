@@ -8,6 +8,5 @@
         rows="6"
         id="about"
         required
-        >{{{ $data['about']  }}}
-    </textarea>
+        >{{{ $data['about'] }}}</textarea>
 </div>
