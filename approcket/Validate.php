@@ -1,12 +1,13 @@
 <?php namespace AppRocket;
 
 use \Validator;
+use \Redirect;
 
 class Validate {
 
   public function edit($post, $id)
   {
-    $validator = Validator::make($post,
+    $validator = $this->validate($post,
       [
         'name'              => "required|min:3|max:255|unique:pages,name,$id|alpha_dash",
         'title'             => 'required',
@@ -17,10 +18,11 @@ class Validate {
         'app_store'         => 'url',
       ]
     );
+    return $validator->fails();
+  }
 
-    if ($validator->fails())
-    {
-      return Redirect::back()->withInput()->withErrors($validator);
-    }
+  private function validate($post,$checks)
+  {
+    return Validator::make($post, $checks);
   }
 } 
