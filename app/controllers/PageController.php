@@ -48,7 +48,8 @@ class PageController extends \BaseController {
     if( $this->page->canEditName($user_id, $id) )
       return "You don't have permission to modify this App Rocket Page";
 
-    if( $validation = $this->validate->edit($post, $id) )
+    $validation = $this->validate->edit($post, $id);
+    if( $validation->fails() )
       return Redirect::back()->withInput()->withErrors($validation);
 
     $background = $this->getBackground($post, $background_image);
@@ -66,9 +67,16 @@ class PageController extends \BaseController {
     if( ! $this->dataNormalizer->isFirstCharacterHex($background) )
       $this->fileHandler->saveFile($background_image, $page_id, $background);
 
-    foreach($images as $key=>$i) {
+    foreach($images as $i) {
+      if( $post[$i.'-meta'] == null )
+
+      if( strpos($post[$i.'-meta'], 'modified') ) {
+        $removeFile = str_replace('modified:', '', $post[$i . '-meta']);
+        File::delete(public_path() . "/uploads/$page_id/$removeFile");
+        $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$i.'-meta']);
+      }
       if(Input::hasFile($i))
-         $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$key]);
+         $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$i.'-meta']);
     }
 
     return Redirect::to("/$post[name]");
