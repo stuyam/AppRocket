@@ -133,3 +133,14 @@ textarea{
     width: 100%;
     margin-bottom: 10px;
 }
+
+.btn-has-image{
+  color: red;
+  background: red;
+}
+
+.btn-has-image:hover{
+  color: red;
+  background: red;
+  opacity: .5;
+}

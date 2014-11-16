@@ -13,12 +13,12 @@ class Validate {
         'title'             => 'required',
         'about'             => 'required',
         'text_color'        => 'required',
-        'screenshot1'        => 'required|image',
+        'screen-0'        => 'required|image',
         'background_image'  => 'image',
         'app_store'         => 'url',
       ]
     );
-    return $validator->fails();
+    return $validator;
   }
 
   private function validate($post,$checks)

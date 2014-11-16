@@ -5,6 +5,7 @@ class DataNormalizer {
   public function editorViewData($input, $saved_data = [])
   {
     $value = [
+      'id',
       'name',
       'title',
       'about',
