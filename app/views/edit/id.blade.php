@@ -1,5 +1,5 @@
 <?php
-if( isset($old_data['id']))
+if( isset($data['id']))
 {
-    echo Form::hidden('id', $old_data['id']);
+    echo Form::hidden('id', $data['id']);
 }
