@@ -49,19 +49,7 @@
     </div>
 
 
-<div id="side-bar">
-    <?php
-    $value = ['name', 'title', 'about', 'app_store', 'copyright', 'phone_color', 'background', 'text_color'];
-    foreach($value as $v)
-    {
-      if( Input::has($v) )
-        $data[$v] = Input::old($v);
-      elseif( isset($old_data[$v]) )
-        $data[$v] = $old_data[$v];
-      else
-        $data[$v] = null;
-    }?>
-
+<aside id="side-bar">
     {{ Form::open(['route' => 'post.edit', 'files' => 'true']) }}
 
         @include('edit.id')
@@ -79,24 +67,10 @@
         {{ link_to_route('dashboard', 'Cancel', null, ['class'=>'btn btn-default']) }}
 
     {{ Form::close() }}
-</div>
+</aside>
 @stop
 
 @section('js')
-
     <script src="/js/EditController.js"></script>
     <script src="/color/jquery.minicolors.min.js"></script>
-
-<!--    <script>-->
-<!--        $(document).ready(function(){-->
-<!--            if(save) {-->
-<!--                $('.screen:gt(0)').hide();-->
-<!--                setInterval(function () {-->
-<!--                    $('.fadein > :first-child').fadeOut().next('.screen').fadeIn().end().appendTo('.fadein');-->
-<!--                }, 5000);-->
-<!--            }-->
-<!--        });-->
-<!--    </script>-->
-
-
 @stop
