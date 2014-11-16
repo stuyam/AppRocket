@@ -2,23 +2,27 @@
 
 use AppRocket\FileHandler;
 use AppRocket\Validate;
+use AppRocket\DataNormalizer;
 
 class PageController extends \BaseController {
 
   protected $fileHandler;
   protected $validate;
   protected $page;
+  protected $dataNormalizer;
 
-  public function __construct(FileHandler $fileHandler, Validate $validate, Page $page)
+  public function __construct(FileHandler $fileHandler, Validate $validate, Page $page, DataNormalizer $dataNormalizer)
   {
-    $this->fileHandler = $fileHandler;
-    $this->validate = $validate;
-    $this->page = $page;
+    $this->fileHandler    = $fileHandler;
+    $this->validate       = $validate;
+    $this->page           = $page;
+    $this->dataNormalizer = $dataNormalizer;
   }
 
   public function edit()
   {
-    return View::make('edit');
+    $viewData = $this->dataNormalizer->editorViewData(Input::all());
+    return View::make('edit', $viewData);
   }
 
 	public function editExisting($name)
@@ -27,7 +31,8 @@ class PageController extends \BaseController {
       $data = json_decode($page['data'], true);
       $data['name'] = $name;
       $data['id'] = $page->id;
-      return View::make('edit', ['old_data' => $data]);
+      $viewData = $this->dataNormalizer->editorViewData(Input::all(), $data);
+      return View::make('edit', $viewData);
     }
     return '404';
 	}
@@ -48,22 +53,22 @@ class PageController extends \BaseController {
 
     $background = $this->getBackground($post, $background_image);
 
-    $images = ['screenshot1', 'screenshot2', 'screenshot3', 'screenshot4'];
+    $images = ['screen-0', 'screen-1', 'screen-2', 'screen-3'];
     foreach($images as $i) {
       if(Input::hasFile($i))
-        $screens[] = $this->fileHandler->nameFile(Input::file($i));
+        $screens[$i.'-meta'] = $this->fileHandler->nameFile(Input::file($i));
+      else
+        $screens[$i.'-meta'] = null;
     }
 
     $page_id = $this->page->savePage($id, $user_id, $post, $background, $screens);
 
-    if( ! $this->isFirstCharacterHex($background) )
+    if( ! $this->dataNormalizer->isFirstCharacterHex($background) )
       $this->fileHandler->saveFile($background_image, $page_id, $background);
 
-    $j = 0;
-    foreach($images as $i) {
+    foreach($images as $key=>$i) {
       if(Input::hasFile($i))
-         $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$j]);
-      $j++;
+         $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$key]);
     }
 
     return Redirect::to("/$post[name]");
@@ -89,7 +94,7 @@ class PageController extends \BaseController {
   private function getBackground($input, $image)
   {
     if($input['back_option'] == 'color'){
-      if($this->isFirstCharacterHex($input['background_color']))
+      if($this->dataNormalizer->isFirstCharacterHex($input['background_color']))
         return $input['background_color'];
       else
         return '#'.$input['background_color'];
@@ -100,8 +105,4 @@ class PageController extends \BaseController {
     }
   }
 
-  private function isFirstCharacterHex($val)
-  {
-    return substr($val, 0, 1) === '#';
-  }
 }
