@@ -1,27 +1,63 @@
+$(document).ready(function(){
+
+    checkAndBindScreens();
+
+});
+
+function checkAndBindScreens(){
+    for(var i = 0; i < 4; i++){
+        checkIfScreenExists(i);
+        bindScreenButtons(i);
+    }
+}
+
+function checkIfScreenExists(i){
+    var screen = $('[name=screen-' + i +'-meta]').val();
+    if(screen != '')
+        $('#screen-' + i + '-btn').addClass('btn-has-image');
+}
+
+function bindScreenButtons(i){
+    $('#screen-' + i).change(function () {
+        var screen = $('[name=screen-' + i +'-meta]').val();
+        ///// If there is a screen shot and it has not been modified in this view /////
+        if(screen != '' && screen.indexOf('modified') == -1){
+            $('[name=screen-' + i +'-meta]').val(function(index, val){
+                return 'modified:' + val;
+            });
+            $('#screen-' + i + '-btn').removeClass('btn-has-image');
+            $('#screen-' + i + '-btn').addClass('btn-success');
+        }
+        else
+            $('#screen-' + i + '-btn').addClass('btn-success');
+    });
+}
+
+/////////// OLD JS NEEDS LOOKING OVER //////////////
 $('#background-choose').change(function (e) {
     if(this.disabled) return alert('File upload not supported!');
     var F = this.files;
     if(F && F[0]) for(var i=0; i<F.length; i++) readImageBackground( F[i] );
 });
 
-$("#image").change(function (e) {
-    if(this.disabled) return alert('File upload not supported!');
-    var F = this.files;
-    if(F && F[0]) for(var i=0; i<F.length; i++) readImage( F[i] );
-    $('#image-btn').addClass('btn-success');
-});
-
-$("#image2").change(function () {
-    $('#image2-btn').addClass('btn-success');
-});
-
-$("#image3").change(function () {
-    $('#image3-btn').addClass('btn-success');
-});
-
-$("#image4").change(function () {
-    $('#image4-btn').addClass('btn-success');
-});
+//$("#screen-0").change(function (e) {
+//    if(this.disabled) return alert('File upload not supported!');
+//    var F = this.files;
+//    if(F && F[0]) for(var i=0; i<F.length; i++) readImage( F[i] );
+//    $('#screen-0-btn').addClass('btn-success');
+//});
+//
+//$("#screen-1").change(function () {
+//    $('#screen-1-btn').addClass('btn-success');
+//});
+//
+//$("#screen-2").change(function () {
+//    $('#screen-2-btn').addClass('btn-success');
+//});
+//
+//$("#screen-3").change(function () {
+//    $('#screen-3-btn').addClass('btn-success');
+//});
 
 $("#background-choose").change(function () {
     $('#background-button').addClass('btn-success');
@@ -127,8 +163,6 @@ $(document).ready( function() {
             var red = parseInt(result[1], 16);
             var green = parseInt(result[2], 16);
             var blue = parseInt(result[3], 16);
-
-            console.log(red+green+blue);
 
             if ((red*0.299 + green*0.587 + blue*0.114) > 186)
             {
