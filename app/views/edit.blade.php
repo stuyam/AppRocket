@@ -1,3 +1,9 @@
+<?php
+//Load old input data through normalizer if $data is not set
+if (empty($data))
+    $data = (new \AppRocket\DataNormalizer())->editorViewData(Input::all());
+?>
+
 @extends('template')
 
 @section('css')
