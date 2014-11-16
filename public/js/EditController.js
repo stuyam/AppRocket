@@ -20,7 +20,7 @@ function checkIfScreenExists(i){
 function bindScreenButtons(i){
     $('#screen-' + i).change(function () {
         var screen = $('[name=screen-' + i +'-meta]').val();
-        ///// If there is a screen shot and it has not been modified in this view /////
+        // If there is a screen shot and it has not been modified in this view
         if(screen != '' && screen.indexOf('modified') == -1){
             $('[name=screen-' + i +'-meta]').val(function(index, val){
                 return 'modified:' + val;

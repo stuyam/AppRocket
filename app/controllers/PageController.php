@@ -58,6 +58,8 @@ class PageController extends \BaseController {
     foreach($images as $i) {
       if(Input::hasFile($i))
         $screens[$i.'-meta'] = $this->fileHandler->nameFile(Input::file($i));
+      elseif(isset($post[$i.'-meta']))
+        $screens[$i.'-meta'] = $post[$i.'-meta'];
       else
         $screens[$i.'-meta'] = null;
     }
@@ -68,14 +70,13 @@ class PageController extends \BaseController {
       $this->fileHandler->saveFile($background_image, $page_id, $background);
 
     foreach($images as $i) {
-      if( $post[$i.'-meta'] == null )
-
-      if( strpos($post[$i.'-meta'], 'modified') ) {
-        $removeFile = str_replace('modified:', '', $post[$i . '-meta']);
+      // If the image is to be over written by another image
+      if( strpos($post[$i . '-meta'], 'modified') !== false) {
+        $removeFile = str_replace('modified:', '', $post[$i . '-meta']) ;
         File::delete(public_path() . "/uploads/$page_id/$removeFile");
         $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$i.'-meta']);
       }
-      if(Input::hasFile($i))
+      elseif(Input::hasFile($i))
          $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$i.'-meta']);
     }
 
