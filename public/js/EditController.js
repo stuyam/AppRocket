@@ -1,6 +1,7 @@
 $(document).ready(function(){
 
     checkAndBindScreens();
+    bindColors();
 
 });
 
@@ -13,24 +14,48 @@ function checkAndBindScreens(){
 
 function checkIfScreenExists(i){
     var screen = $('[name=screen-' + i +'-meta]').val();
-    if(screen != '')
+    if(screen != '') {
         $('#screen-' + i + '-btn').addClass('btn-has-image');
+    }
 }
 
 function bindScreenButtons(i){
     $('#screen-' + i).change(function () {
-        var screen = $('[name=screen-' + i +'-meta]').val();
-        // If there is a screen shot and it has not been modified in this view
-        if(screen != '' && screen.indexOf('modified') == -1){
-            $('[name=screen-' + i +'-meta]').val(function(index, val){
-                return 'modified:' + val;
-            });
-            $('#screen-' + i + '-btn').removeClass('btn-has-image');
-            $('#screen-' + i + '-btn').addClass('btn-success');
-        }
-        else
-            $('#screen-' + i + '-btn').addClass('btn-success');
+        screenChange(i);
     });
+
+    $('#screen-' + i + '-btn').click(function () {
+        screenClick(i);
+    });
+}
+
+function screenChange(i){
+    var screen = $('[name=screen-' + i +'-meta]').val();
+    // If there is a screen shot and it has not been modified in this view
+    if(screen != '' && screen.indexOf('modified') == -1){
+        modifyScreenMeta(i);
+        $('#screen-' + i + '-btn').addClass('btn-success');
+    }
+    else
+        $('#screen-' + i + '-btn').addClass('btn-success');
+}
+
+function screenClick(i){
+    var screen = $('[name=screen-' + i +'-meta]').val();
+    if(screen != '' && screen.indexOf('modified') == -1){
+        var r = confirm("Are you sure you want to delete this image?/n You have the option to upload a new file to replace it!");
+        if (r == true) {
+            modifyScreenMeta(i);
+            return false;
+        }
+    }
+}
+
+function modifyScreenMeta(i){
+    $('[name=screen-' + i +'-meta]').val(function(index, val){
+        return 'modified:' + val;
+    });
+    $('#screen-' + i + '-btn').removeClass('btn-has-image');
 }
 
 /////////// OLD JS NEEDS LOOKING OVER //////////////
@@ -134,7 +159,7 @@ function readImageBackground(file) {
     };
 }
 
-$(document).ready( function() {
+function bindColors(){
     $.minicolors = {
         defaults: {
             animationSpeed: 50,
@@ -180,4 +205,4 @@ $(document).ready( function() {
             }
         }
     });
-});
+};
