@@ -13,11 +13,16 @@ class Validate {
         'title'             => 'required',
         'about'             => 'required',
         'text_color'        => 'required',
-        'screen-0'        => 'required|image',
+        'screen-0'          => 'image',
         'background_image'  => 'image',
         'app_store'         => 'url',
       ]
     );
+    $validator->sometimes('screen-0', 'required', function($input)
+    {
+      return $input['screen-0-meta'] == null;
+    });
+
     return $validator;
   }
 
