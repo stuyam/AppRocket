@@ -82,8 +82,8 @@ class AuthController extends \BaseController {
     }
 
     public function dashboard(){
-        $userid = Auth::id();
-        $pages = Page::where('user_id', '=', $userid)->get();
+        $user_id = Auth::id();
+        $pages = Page::where('user_id', '=', $user_id)->get();
         return View::make('dashboard', ['pages'=>$pages]);
     }
 

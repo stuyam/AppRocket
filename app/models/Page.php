@@ -3,6 +3,11 @@
 class Page extends \Eloquent {
 	protected $fillable = ['user_id', 'name', 'data'];
 
+  public function doesUserOwnPage($user_id, $name)
+  {
+    return Page::where('user_id', $user_id)->whereId($name)->first();
+  }
+
   public function canEditName($user_id, $id)
   {
     return ! Page::where('user_id', $user_id)->where('id', $id)->first() && $id != false;

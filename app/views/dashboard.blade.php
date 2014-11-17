@@ -5,20 +5,25 @@
 @stop
 
 @section('content')
+{{ Session::get('message') ? '<div class="alert alert-success" role="alert">'.Session::get('message').'</div>' :'' }}
 <div id="box">
     <table class="table">
         @foreach ($pages as $page)
+        <?php
+            $data = json_decode($page->data, true);
+        ?>
         <tr>
             <td>
-                <a href="/{{{ $page->name }}}">{{{ $page->title }}}</a>
-                <button type="button" class="btn btn-default btn-sm">
-                    <span class="glyphicon glyphicon-pencil"></span> Edit
-                </button>
-                <button class="btn btn-default btn-sm" data-toggle="modal" data-target="#myModal">
+                <a href="/{{{ $page->name }}}">{{{ $data['title'] }}}</a>
+
+                <button class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#modal-{{ $page->id }}">
                     <span class="glyphicon glyphicon-trash"></span> Delete
                 </button>
+                <a href="/{{{ $page->name }}}/edit" class="btn btn-default btn-sm pull-right">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
                 <!-- Modal -->
-                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal fade" id="modal-{{ $page->id }}" tabindex="-1" role="dialog" aria-labelledby="modal-{{ $page->id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -30,7 +35,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-danger">Delete Page</button>
+                                {{ link_to($page->id.'/delete', 'Delete Page', ['class'=>'btn btn-danger']) }}
                             </div>
                         </div>
                     </div>
@@ -39,6 +44,6 @@
         </tr>
         @endforeach
     </table>
-    <a href="/create"><button type="button" class="btn btn-primary full-width">Create New Rocket Page</button></a>
+    {{ link_to_route('edit', 'Create New Rocket Page', null, ['class'=>'btn btn-primary full-width']) }}
 </div>
 @stop

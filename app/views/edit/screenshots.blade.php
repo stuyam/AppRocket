@@ -1,5 +1,5 @@
 <div class="form-group">
-    {{ Form::label('image', 'App Screenshot') }}<br />
+    {{ Form::label('image', 'App Screenshots') }}<br />
     <span class="error-display">{{$errors->first('screen-0')}}</span>
     <div class="btn-group btn-group-justified" id="top-row">
         <span class="btn btn-default btn-file" id="screen-0-btn">

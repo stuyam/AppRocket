@@ -37,6 +37,17 @@ class PageController extends \BaseController {
     return '404';
 	}
 
+  public function delete($name)
+  {
+    if( $page = $this->page->doesUserOwnPage(Auth::id(), $name) )
+    {
+      File::deleteDirectory(public_path() . "/uploads/$page->id");
+      $page->delete();
+      return Redirect::back()->with('message', 'App Rocket page deleted successfully!');
+    }
+    return Redirect::back();
+  }
+
   public function editPost()
   {
     $user_id          = Auth::id();

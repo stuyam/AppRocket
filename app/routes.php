@@ -41,6 +41,8 @@ Route::group(['before' => 'auth'], function()
     Route::get('/edit', ['as'=>'edit', 'uses'=>'PageController@edit']);
     Route::get('/{id?}/edit', ['as'=>'edit.existing', 'uses'=>'PageController@editExisting']);
     Route::post('/edit', ['as'=>'post.edit', 'uses'=>'PageController@editPost']);
+
+    Route::get('/{id?}/delete', ['as'=>'delete', 'uses'=>'PageController@delete']);
 });
 
 Route::get('/{name}', 'PageController@view');

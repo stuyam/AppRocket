@@ -69,7 +69,7 @@ if (empty($data))
         @include('edit.phone_color')
         @include('edit.text_color')
 
-        {{ Form::submit('Save Page', ['class'=>'btn btn-primary', 'id'=>'submit']) }}
+        {{ Form::submit('Save Page', ['class'=>'btn btn-primary', 'id'=>'submit', 'data-loading-text'=>'Saving...', 'autocomplete'=>'off']) }}
         {{ link_to_route('dashboard', 'Cancel', null, ['class'=>'btn btn-default']) }}
 
     {{ Form::close() }}
