@@ -3,6 +3,8 @@ $(document).ready(function(){
     checkAndBindScreens();
     bindColors();
 
+    saveButton();
+
 });
 
 function checkAndBindScreens(){
@@ -56,6 +58,12 @@ function modifyScreenMeta(i){
         return 'modified:' + val;
     });
     $('#screen-' + i + '-btn').removeClass('btn-has-image');
+}
+
+function saveButton() {
+    $('#submit').click( function () {
+        $(this).button('loading');
+    });
 }
 
 /////////// OLD JS NEEDS LOOKING OVER //////////////
