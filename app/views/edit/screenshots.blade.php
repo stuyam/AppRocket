@@ -1,9 +1,9 @@
 <div class="form-group">
     {{ Form::label('image', 'App Screenshot') }}<br />
-    <span class="error-display">{{$errors->first('screenshot')}}</span>
+    <span class="error-display">{{$errors->first('screen-0')}}</span>
     <div class="btn-group btn-group-justified" id="top-row">
         <span class="btn btn-default btn-file" id="screen-0-btn">
-            Choose File 1&#42;{{ Form::file('screen-0', ['required'=>'required', 'id'=>'screen-0']) }}
+            Choose File 1&#42;{{ Form::file('screen-0', ['id'=>'screen-0']) }}
             {{ Form::hidden('screen-0-meta', $data['screen-0-meta']) }}
         </span>
         <span class="btn btn-default btn-file" id="screen-1-btn">
