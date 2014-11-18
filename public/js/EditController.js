@@ -2,6 +2,9 @@ $(document).ready(function(){
 
     checkAndBindScreens();
     bindColors();
+    bindPhones();
+
+    bindTextBoxes();
 
     saveButton();
 
@@ -12,6 +15,22 @@ function checkAndBindScreens(){
         checkIfScreenExists(i);
         bindScreenButtons(i);
     }
+}
+
+function bindPhones(){
+    $('select[name=phone_color]').change(function(){
+        $('#device').attr('src', '/img/' + $(this).val() + '.png');
+    });
+}
+
+function bindTextBoxes(){
+    $( "#title-input" ).keyup(function() {
+        $('#title').text($(this).val());
+    });
+
+    $( "#about-input" ).keyup(function() {
+        $('#about').text($(this).val());
+    });
 }
 
 function checkIfScreenExists(i){
@@ -45,7 +64,7 @@ function screenChange(i){
 function screenClick(i){
     var screen = $('[name=screen-' + i +'-meta]').val();
     if(screen != '' && screen.indexOf('modified') == -1){
-        var r = confirm("Are you sure you want to delete this image?/n You have the option to upload a new file to replace it!");
+        var r = confirm("Are you sure you want to delete this image?\nYou have the option to upload a new file to replace it!");
         if (r == true) {
             modifyScreenMeta(i);
             return false;

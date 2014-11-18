@@ -10,7 +10,6 @@ if (empty($data))
 <link rel="stylesheet" href="/css/app.css">
 <link rel="stylesheet" href="/css/edit.css">
 <link rel="stylesheet" href="/color/jquery.minicolors.css">
-<link rel="stylesheet" href="/css/rangeslider.css">
 @stop
 
 @section('content')
@@ -29,7 +28,7 @@ if (empty($data))
                     ?>
                 </div>
                 <div class="col-md-6 col-md-pull-6">
-                    <img ng-src="/img/@{{ phone_color }}.png" id="device" />
+                    <img src="/img/{{ $data['phone_color'] or 'black' }}.png" id="device" />
                     <div id="fade">
 <!--                        --><?php
 //                        $images = explode(',', $image);
@@ -71,7 +70,6 @@ if (empty($data))
         @include('edit.background')
         @include('edit.phone_color')
         @include('edit.text_color')
-        <input type="range" min="0" max="10" step=".2" value="0">
 
         {{ Form::submit('Save Page', ['class'=>'btn btn-primary', 'id'=>'submit', 'data-loading-text'=>'Saving...', 'autocomplete'=>'off']) }}
         {{ link_to_route('dashboard', 'Cancel', null, ['class'=>'btn btn-default', 'id'=>'cancel']) }}
@@ -83,5 +81,4 @@ if (empty($data))
 @section('js')
     <script src="/js/EditController.js"></script>
     <script src="/color/jquery.minicolors.min.js"></script>
-    <script src="/js/rangeslider.min.js"></script>
 @stop

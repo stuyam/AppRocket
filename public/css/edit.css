@@ -76,6 +76,10 @@ input, select{
   margin-bottom: 10px;
 }
 
+#submit:hover{
+  background: #3075B2;
+}
+
 #cancel{
   width: 100%;
 }
@@ -142,7 +146,11 @@ textarea{
   margin: 0 0 5px 0;
 }
 
-#screens > span:hover{
+.btn{
+  border: 0 !important;
+}
+
+.btn:hover{
   background: #F7F7F7;
 }
 
@@ -190,6 +198,8 @@ textarea{
   letter-spacing: .5px;
 }
 
-.btn{
-  border: 0 !important;
+input[type=range]{
+  margin-top: 10px;
+  width: 200px;
+  float: right;
 }

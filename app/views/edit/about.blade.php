@@ -6,7 +6,7 @@
         name="about"
         cols="10"
         rows="6"
-        id="about"
+        id="about-input"
         required
         >{{{ $data['about'] }}}</textarea>
 </div>
