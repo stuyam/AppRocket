@@ -85,9 +85,8 @@ class PageController extends \BaseController {
       if( strpos($post[$i . '-meta'], 'modified') !== false) {
         $removeFile = str_replace('modified:', '', $post[$i . '-meta']) ;
         File::delete(public_path() . "/uploads/$page_id/$removeFile");
-        $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$i.'-meta']);
       }
-      elseif(Input::hasFile($i))
+      if(Input::hasFile($i))
          $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$i.'-meta']);
     }
 
