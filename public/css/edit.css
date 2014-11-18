@@ -162,7 +162,7 @@ textarea{
 }
 
 .btn-has-image:hover{
-  color: #7DB9E7;
+  color: white !important;
   background: #1C77BD !important;
 }
 
