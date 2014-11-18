@@ -3,8 +3,8 @@ $(document).ready(function(){
     checkAndBindScreens();
     bindColors();
     bindPhones();
-
     bindTextBoxes();
+    bindBlur();
 
     saveButton();
 
@@ -30,6 +30,13 @@ function bindTextBoxes(){
 
     $( "#about-input" ).keyup(function() {
         $('#about').text($(this).val());
+    });
+}
+
+function bindBlur(){
+    $('#blur-input').change(function(){
+        $('#background-image-display').css('-webkit-filter', 'blur(' + $(this).val() + 'px)');
+        $('#background-image-display').css('filter', 'blur(' + $(this).val() + 'px)');
     });
 }
 
@@ -177,8 +184,8 @@ function readImageBackground(file) {
             //    t = file.type,                           // ext only: // file.type.split('/')[1],
             //    n = file.name,
             //    s = ~~(file.size/1024) +'KB';
-            $('#wrapper').css('background','url('+this.src +') no-repeat center center fixed');
-            $('#wrapper').css('background-size','cover');
+            $('#background-image-display').css('background','url('+this.src +') no-repeat center center fixed');
+            $('#background-image-display').css('background-size','cover');
         };
         image.onerror= function() {
             alert('Invalid file type: '+ file.type);

@@ -28,7 +28,7 @@
     overflow-x: hidden;
     padding: 10px;
     background: #E8E8E8;
-    z-index: 2000;
+    z-index: 2000000;
 }
 
 #wrapper{
@@ -202,4 +202,12 @@ input[type=range]{
   margin-top: 10px;
   width: 200px;
   float: right;
+}
+
+#background-image-display{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }

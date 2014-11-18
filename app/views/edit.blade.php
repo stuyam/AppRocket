@@ -14,6 +14,7 @@ if (empty($data))
 
 @section('content')
     <div id="wrapper">
+        <div id="background-image-display"></div>
         <div class="container">
             <div class="row">
                 <div class="col-md-6 col-md-push-6">
@@ -29,7 +30,7 @@ if (empty($data))
                 </div>
                 <div class="col-md-6 col-md-pull-6">
                     <img src="/img/{{ $data['phone_color'] or 'black' }}.png" id="device" />
-                    <div id="fade">
+                    {{--<div id="fade">--}}
 <!--                        --><?php
 //                        $images = explode(',', $image);
 //                        foreach($images as $image)
@@ -48,7 +49,7 @@ if (empty($data))
 //                        echo '<script>var save = false;</script>';
 //                    }
 //                    ?>
-                </div>
+                {{--</div>--}}
             </div>
         </div>
     </div>
