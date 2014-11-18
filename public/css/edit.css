@@ -54,19 +54,6 @@
     font-size: 1em;
 }
 
-#screens > span{
-  float: left;
-  width: 112px;
-  padding-top: 10px;
-  padding-bottom: 10px;
-  margin: 0 5px 5px 0;
-  border: 0 !important;
-}
-
-#screens > span:nth-child(even){
-  margin: 0 0 5px 0;
-}
-
 label{
   color: gray;
   font-weight: 200;
@@ -142,30 +129,65 @@ textarea{
     margin-bottom: 10px;
 }
 
+#screens > span{
+  float: left;
+  width: 112px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 0 5px 5px 0;
+  border: 0 !important;
+}
+
+#screens > span:nth-child(even){
+  margin: 0 0 5px 0;
+}
+
+#screens > span:hover{
+  background: #F7F7F7;
+}
+
+.btn-added-file{
+  color: #FFFFFF;
+  background: #3ADA6D;
+}
+
+.btn-added-file:hover{
+  color: #FFFFFF;
+  background: #2CC15B !important;
+}
+
 .btn-has-image{
-  color: red;
-  background: red;
+  color: #7DB9E7;
+  background: #3690D7;
 }
 
 .btn-has-image:hover{
-  color: red;
-  background: red;
-  opacity: .5;
+  color: #7DB9E7;
+  background: #1C77BD !important;
 }
 
-input::-webkit-input-placeholder { /* WebKit browsers */
-  color:    red;
+::-webkit-input-placeholder {
+  color: #E1E1E1 !important;
+  font-weight: 200;
+  letter-spacing: .5px;
 }
-input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-  color:    red;
-  opacity:  1;
+
+:-moz-placeholder { /* Firefox 18- */
+  color: #E1E1E1 !important;
+  font-weight: 200;
+  letter-spacing: .5px;
 }
-input::-moz-placeholder { /* Mozilla Firefox 19+ */
-  color:    red;
-  opacity:  1;
+
+::-moz-placeholder {  /* Firefox 19+ */
+  color: #E1E1E1 !important;
+  font-weight: 200;
+  letter-spacing: .5px;
 }
-input:-ms-input-placeholder { /* Internet Explorer 10+ */
-  color:    red;
+
+:-ms-input-placeholder {
+  color: #E1E1E1 !important;
+  font-weight: 200;
+  letter-spacing: .5px;
 }
 
 .btn{

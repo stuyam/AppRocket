@@ -36,10 +36,10 @@ function screenChange(i){
     // If there is a screen shot and it has not been modified in this view
     if(screen != '' && screen.indexOf('modified') == -1){
         modifyScreenMeta(i);
-        $('#screen-' + i + '-btn').addClass('btn-success');
+        $('#screen-' + i + '-btn').addClass('btn-added-file');
     }
     else
-        $('#screen-' + i + '-btn').addClass('btn-success');
+        $('#screen-' + i + '-btn').addClass('btn-added-file');
 }
 
 function screenClick(i){
