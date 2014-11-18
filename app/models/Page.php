@@ -5,12 +5,12 @@ class Page extends \Eloquent {
 
   public function doesUserOwnPage($user_id, $name)
   {
-    return Page::where('user_id', $user_id)->whereId($name)->first();
+    return $this->where('user_id', $user_id)->whereId($name)->first();
   }
 
   public function canEditName($user_id, $id)
   {
-    return ! Page::where('user_id', $user_id)->where('id', $id)->first() && $id != false;
+    return ! $this->where('user_id', $user_id)->where('id', $id)->first() && $id != false;
   }
 
   public function savePage($id, $user_id, $data_input, $background, $screens){
@@ -27,7 +27,7 @@ class Page extends \Eloquent {
     $data = array_merge($data, $screens);
 
     if( $id ){
-      $page = Page::find($id);
+      $page = $this->find($id);
     }
     else {
       $page = new Page;

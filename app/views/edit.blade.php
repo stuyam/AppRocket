@@ -62,15 +62,17 @@ if (empty($data))
         @include('edit.name')
         @include('edit.title')
         @include('edit.about')
-        @include('edit.app_store')
+        @include('edit.store')
+        @include('edit.social')
+        @include('edit.analytics')
         @include('edit.copyright')
-        @include('edit.screenshots')
+        @include('edit.screens')
         @include('edit.background')
         @include('edit.phone_color')
         @include('edit.text_color')
 
         {{ Form::submit('Save Page', ['class'=>'btn btn-primary', 'id'=>'submit', 'data-loading-text'=>'Saving...', 'autocomplete'=>'off']) }}
-        {{ link_to_route('dashboard', 'Cancel', null, ['class'=>'btn btn-default']) }}
+        {{ link_to_route('dashboard', 'Cancel', null, ['class'=>'btn btn-default', 'id'=>'cancel']) }}
 
     {{ Form::close() }}
 </aside>

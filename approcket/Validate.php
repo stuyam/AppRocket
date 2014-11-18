@@ -16,6 +16,9 @@ class Validate {
         'screen-0'          => 'image',
         'background_image'  => 'image',
         'app_store'         => 'url',
+        'google_play'       => 'url',
+        'facebook'          => 'url',
+        'twitter'           => 'url',
       ]
     );
     $validator->sometimes('screen-0', 'required', function($input)

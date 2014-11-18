@@ -27,7 +27,7 @@
     overflow-y: scroll;
     overflow-x: hidden;
     padding: 10px;
-    background: #3c4047;
+    background: #E8E8E8;
     z-index: 2000;
 }
 
@@ -54,44 +54,51 @@
     font-size: 1em;
 }
 
-#top-row span{
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+#screens > span{
+  float: left;
+  width: 112px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin: 0 5px 5px 0;
+  border: 0 !important;
 }
 
-#bottom-row span{
-    border-top-left-radius: 0px;
-    border-top-right-radius: 0px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    border-top: 0px;
-}
-
-#top-row span:first-child{
-    border-right: 0px;
-}
-
-#bottom-row span:first-child{
-    border-right: 0px;
+#screens > span:nth-child(even){
+  margin: 0 0 5px 0;
 }
 
 label{
-    color: white;
-    font-weight: 400;
+  color: gray;
+  font-weight: 200;
+  letter-spacing: 1px;
 }
 
-input[type="type"]{
-    width: 100%;
+input[type="text"]{
+  width: 100%;
+}
+
+input, select{
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
 }
 
 #submit{
-    width: 100%;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+#cancel{
+  width: 100%;
 }
 
 textarea{
-    resize:vertical;
+  resize:vertical;
+  border: 0 !important;
+  box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow: none !important;
 }
 
 .btn-group-vertical{
@@ -125,7 +132,8 @@ textarea{
 }
 
 #background-table{
-    position: relative;
+  position: relative;
+  background: transparent;
 }
 
 .error-display{
@@ -143,4 +151,23 @@ textarea{
   color: red;
   background: red;
   opacity: .5;
+}
+
+input::-webkit-input-placeholder { /* WebKit browsers */
+  color:    red;
+}
+input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color:    red;
+  opacity:  1;
+}
+input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color:    red;
+  opacity:  1;
+}
+input:-ms-input-placeholder { /* Internet Explorer 10+ */
+  color:    red;
+}
+
+.btn{
+  border: 0 !important;
 }

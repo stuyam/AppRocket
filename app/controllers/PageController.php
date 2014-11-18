@@ -27,7 +27,7 @@ class PageController extends \BaseController {
 
 	public function editExisting($name)
   {
-    if ($page = Page::whereName($name)->first()) {
+    if ($page = $this->page->whereName($name)->first()) {
       $data = json_decode($page['data'], true);
       $data['name'] = $name;
       $data['id'] = $page->id;
@@ -95,7 +95,7 @@ class PageController extends \BaseController {
   }
 
   public function view($name){
-    $page = Page::where('name', '=', $name)->first();
+    $page = $this->page->where('name', '=', $name)->first();
     if( ! $page)
     {
       return Response::make('404 Page Not Found!');
