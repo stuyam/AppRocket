@@ -29,27 +29,11 @@ if (empty($data))
                     ?>
                 </div>
                 <div class="col-md-6 col-md-pull-6">
-                    <img src="/img/{{ $data['phone_color'] or 'black' }}.png" id="device" />
-                    {{--<div id="fade">--}}
-<!--                        --><?php
-//                        $images = explode(',', $image);
-//                        foreach($images as $image)
-//                        {
-//                            echo '<img src="/screens/'.$image.'" class="screen" />';
-//                        }
-//                        ?>
-<!--                    </div>-->
-<!--                    --><?php
-//                    if(count($images) > 1)
-//                    {
-//                        echo '<script>var save = true;</script>';
-//                    }
-//                    else
-//                    {
-//                        echo '<script>var save = false;</script>';
-//                    }
-//                    ?>
-                {{--</div>--}}
+                    <img src="/img/{{{ $data['phone_color'] or 'black' }}}.png" id="device" />
+                    <img src="/uploads/{{{ !empty($data['screen-3-meta']) ? $data['id'].'/'.$data['screen-3-meta'] : 'temp/temp.png' }}}" class="screen" id="editor-screen-3"/>
+                    <img src="/uploads/{{{ !empty($data['screen-2-meta']) ? $data['id'].'/'.$data['screen-2-meta'] : 'temp/temp.png' }}}" class="screen" id="editor-screen-2"/>
+                    <img src="/uploads/{{{ !empty($data['screen-1-meta']) ? $data['id'].'/'.$data['screen-1-meta'] : 'temp/temp.png' }}}" class="screen" id="editor-screen-1"/>
+                    <img src="/uploads/{{{ !empty($data['screen-0-meta']) ? $data['id'].'/'.$data['screen-0-meta'] : 'temp/temp.png' }}}" class="screen" id="editor-screen-0"/>
             </div>
         </div>
     </div>

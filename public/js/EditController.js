@@ -49,23 +49,41 @@ function checkIfScreenExists(i){
 
 function bindScreenButtons(i){
     $('#screen-' + i).change(function () {
-        screenChange(i);
+        var screen = $('[name=screen-' + i + '-meta]').val();
+        // If there is a screen shot and it has not been modified in this view
+        if (screen != '' && screen.indexOf('modified') == -1) {
+            modifyScreenMeta(i);
+            $('#screen-' + i + '-btn').addClass('btn-added-file');
+        }
+        else {
+            $('#screen-' + i + '-btn').addClass('btn-added-file');
+        }
+        readURL(this, i);
     });
 
     $('#screen-' + i + '-btn').click(function () {
         screenClick(i);
     });
+
+    $('#screen-' + i + '-btn').hover(function () {
+        bringImageForward(i);
+    });
 }
 
-function screenChange(i){
-    var screen = $('[name=screen-' + i +'-meta]').val();
-    // If there is a screen shot and it has not been modified in this view
-    if(screen != '' && screen.indexOf('modified') == -1){
-        modifyScreenMeta(i);
-        $('#screen-' + i + '-btn').addClass('btn-added-file');
+function readURL(input, i) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#editor-screen-' + i).attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
     }
-    else
-        $('#screen-' + i + '-btn').addClass('btn-added-file');
+}
+
+function bringImageForward(i){
+    $('.screen').removeClass('screen-front');
+    $('#editor-screen-' + i).addClass('screen-front');
 }
 
 function screenClick(i){
@@ -74,6 +92,7 @@ function screenClick(i){
         var r = confirm("Are you sure you want to delete this image?\nYou have the option to upload a new file to replace it!");
         if (r == true) {
             modifyScreenMeta(i);
+            $('#editor-screen-' + i).attr('src', '/uploads/temp/temp.png');
             return false;
         }
     }
@@ -150,7 +169,7 @@ $('#store_url').change(function(){
    }
 });
 
-function readImage(file) {
+function readImage(file, i) {
     var reader = new FileReader();
     var image  = new Image();
 
@@ -158,12 +177,8 @@ function readImage(file) {
     reader.onload = function(_file) {
         image.src    = _file.target.result;              // url.createObjectURL(file);
         image.onload = function() {
-            //var w = this.width,
-            //    h = this.height,
-            //    t = file.type,                           // ext only: // file.type.split('/')[1],
-            //    n = file.name,
-            //    s = ~~(file.size/1024) +'KB';
-            $('#fade').append('<img src="'+ this.src +'"class="screen"><br>');
+            console.log('#editor-screen-' + i);
+            $('#editor-screen-' + i).attr('src', this.src);
         };
         image.onerror= function() {
             alert('Invalid file type: '+ file.type);

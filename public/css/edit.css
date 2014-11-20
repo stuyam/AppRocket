@@ -211,3 +211,11 @@ input[type=range]{
   right: 0;
   bottom: 0;
 }
+
+.screen{
+  z-index: 1000;
+}
+
+.screen-front{
+  z-index: 100000;
+}
