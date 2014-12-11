@@ -1,5 +1,5 @@
 <?php
-if( isset($data['id']))
+if( $data['id'] !== null )
 {
     echo Form::hidden('id', $data['id']);
 }

@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+    reloadIfExists();
+
     checkAndBindScreens();
     bindColors();
     bindPhones();
@@ -9,6 +11,16 @@ $(document).ready(function(){
     saveButton();
 
 });
+
+function reloadIfExists(){
+    if( $('#title-input').val().length > 0 ){
+        $('#title').text($('#title-input').val());
+    }
+
+    if( $('#about-input').val().length > 0 ){
+        $('#about').text($('#title-input').val());
+    }
+}
 
 function checkAndBindScreens(){
     for(var i = 0; i < 4; i++){

@@ -3,6 +3,7 @@
 use AppRocket\FileHandler;
 use AppRocket\Validate;
 use AppRocket\DataNormalizer;
+use AppRocket\Respond;
 
 class PageController extends \BaseController {
 
@@ -10,13 +11,15 @@ class PageController extends \BaseController {
   protected $validate;
   protected $page;
   protected $dataNormalizer;
+  protected $respond;
 
-  public function __construct(FileHandler $fileHandler, Validate $validate, Page $page, DataNormalizer $dataNormalizer)
+  public function __construct(FileHandler $fileHandler, Validate $validate, Page $page, DataNormalizer $dataNormalizer, Respond $respond)
   {
     $this->fileHandler    = $fileHandler;
     $this->validate       = $validate;
     $this->page           = $page;
     $this->dataNormalizer = $dataNormalizer;
+    $this->respond = $respond;
   }
 
   public function edit()
@@ -55,11 +58,10 @@ class PageController extends \BaseController {
     $id               = Input::has('id') ? Input::get('id') : false;
     $background_image = Input::file('background_image');
 
-    //Check to make sure the person owns the page they are trying to edit
-    if( $this->page->canEditName($user_id, $id) )
-      return "You don't have permission to modify this App Rocket Page";
+//    if( ! $this->page->doesOwnSavedPage($user_id, $id) )
+//      return "You don't have permission to modify this App Rocket Page";
 
-    $validation = $this->validate->edit($post, $id);
+    $validation = $this->validate->editor($post, $id);
     if( $validation->fails() )
       return Redirect::back()->withInput()->withErrors($validation);
 
@@ -78,6 +80,10 @@ class PageController extends \BaseController {
     $page_id = $this->page->savePage($id, $user_id, $post, $background, $screens);
 
     if( ! $this->dataNormalizer->isFirstCharacterHex($background) )
+      if( $post['blur'] != 0 ) {
+        $image = new Imagick($background_image);
+        $background_image = $image->blurImage($post['blur'], 1);
+      }
       $this->fileHandler->saveFile($background_image, $page_id, $background);
 
     foreach($images as $i) {
@@ -94,17 +100,17 @@ class PageController extends \BaseController {
   }
 
   public function view($name){
-    $page = $this->page->where('name', '=', $name)->first();
+    $page = $this->page->whereName($name)->first();
     if( ! $page)
     {
-      return Response::make('404 Page Not Found!');
+      return $this->respond->with404();
     }
     $user = User::where('id', '=', $page->user_id)->first();
 
-    if ( ! $user->subscribed())
-    {
-      return Response::make('404 Page Not Found!');
-    }
+//    if ( ! $user->subscribed())
+//    {
+//      return $this->respond->with404();
+//    }
 
     $page['data'] = json_decode($page['data'], true);
     return View::make('dump', $page);

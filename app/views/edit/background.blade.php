@@ -21,7 +21,7 @@ else
                 <span class="btn btn-default btn-file" id="background-button">
                     Choose Image{{ Form::file('background_image', ['id'=>'background-choose']) }}
                 </span>
-                <input id="blur-input" type="range" min="0" max="20" step=".2" value="0">
+                <input name="blur" id="blur-input" type="range" min="0" max="20" step=".2" value="0">
             </td>
         </tr>
     </table>

@@ -100,3 +100,16 @@ Route::filter('subscribed', function()
         return Redirect::route('pick.billing');
     }
 });
+
+Route::filter('test', function($route)
+{
+  if (Auth::user() && ! Auth::user()->subscribed()) //TODO: Make filter check "OR" if a user has a free plan. Also create a plan type in the user table
+  {
+    $route->getParameter('cat');
+    $count = Page::where('user_id', Auth::id())->count();
+    if( $count > 0)
+    return Redirect::route('pick.billing');
+  }
+  $route->getParameter('cat');
+  dd($route->getParameter('cat'));
+});

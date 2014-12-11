@@ -5,7 +5,7 @@ use \Redirect;
 
 class Validate {
 
-  public function edit($post, $id)
+  public function editor($post, $id)
   {
     $validator = $this->validate($post,
       [

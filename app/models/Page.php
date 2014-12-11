@@ -8,9 +8,9 @@ class Page extends \Eloquent {
     return $this->where('user_id', $user_id)->whereId($name)->first();
   }
 
-  public function canEditName($user_id, $id)
+  public function doesOwnSavedPage($user_id, $id)
   {
-    return ! $this->where('user_id', $user_id)->where('id', $id)->first() && $id != false;
+    return $this->where('user_id', $user_id)->where('id', $id)->first() && $id != false;
   }
 
   public function savePage($id, $user_id, $data_input, $background, $screens){
