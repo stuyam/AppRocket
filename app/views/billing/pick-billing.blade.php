@@ -1,4 +1,4 @@
-@extends('template')
+@extends('layouts/layout')
 
 @section('css')
 <link rel="stylesheet" href="/css/billing.css">
@@ -25,31 +25,21 @@
     <div class="row">
         <div class="col-md-6">
             <h2>Starter Account</h2>
-            <h3>$5 a month</h3>
+            <h3>FREE</h3>
             <ul>
-                <li>3 App Rocket Pages</li>
+                <li>1 App Rocket Page</li>
                 <li>App Rocket Branding</li>
                 <li>http://yourapp.approcket.com</li>
             </ul>
-            <form action="billing/starter" method="POST">
-                <script
-                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                    data-key="pk_test_4Te47S8wjPLWUR2HsfadSWJ8"
-                    data-amount="500"
-                    data-name="App Rocket"
-                    data-description="Start Account (Monthly $5.00)"
-                    data-panel-label="Subscribe"
-                    data-email="{{{ Auth::user()->email }}}"
-                    data-label="Starter Account"
-                    data-image="/128x128.png">
-                </script>
-            </form>
+            <a href="{{{ route('dashboard') }}}" class="stripe-button-el">
+                <span style="display: block; min-height: 30px;">Continue for Free</span>
+            </a>
         </div>
         <div class="col-md-6">
             <h2>Pro Account</h2>
-            <h3>$10 a month</h3>
+            <h3>$5 a month</h3>
             <ul>
-                <li>10 App Rocket Pages</li>
+                <li>Unlimited App Rocket Pages</li>
                 <li>No App Rocket Branding</li>
                 <li>Custom Domain Name</li>
             </ul>
@@ -57,12 +47,12 @@
                 <script
                     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                     data-key="pk_test_4Te47S8wjPLWUR2HsfadSWJ8"
-                    data-amount="1000"
+                    data-amount="500"
                     data-name="App Rocket"
-                    data-description="Pro Account (Monthly $10.00)"
+                    data-description="Pro Account (Monthly $5.00)"
                     data-panel-label="Subscribe"
                     data-email="{{{ Auth::user()->email }}}"
-                    data-label="Pro Account"
+                    data-label="Create Pro Account"
                     data-image="/128x128.png">
                 </script>
             </form>

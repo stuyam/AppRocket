@@ -1,0 +1,52 @@
+body{
+    background: #3c4047;
+}
+
+#box{
+    width: 400px;
+    position: relative;
+    margin: 4% auto 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+header{
+    width: 270px;
+    margin: auto;
+    margin-top: 4%;
+}
+
+header:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+#logo{
+    width: 40px;
+    display: block;
+    float: left;
+}
+
+h1{
+    float: left;
+    line-height: 0px;
+    color: white;
+    margin-left: 10px;
+    font-weight: 500;
+    letter-spacing: 1px;
+}
+
+h2{
+    margin-top: 0px;
+    font-weight: 300;
+}
+
+.btn{
+    width: 100%;
+}
+
+.error-display{
+    color: red;
+}

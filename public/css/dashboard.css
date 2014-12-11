@@ -1,13 +1,17 @@
 #box{
     width: 250px;
-    height: 250px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin-top: -125px;
-    margin-left: -125px;
+    position: relative;
+    margin: 30px auto;
 }
 
 .full-width{
     width: 100%;
+}
+
+.pull-right{
+  float: right;
+}
+
+.alert{
+  border-radius: 0;
 }

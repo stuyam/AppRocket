@@ -4,13 +4,30 @@ class AuthController extends \BaseController {
 
     public function login()
     {
-        return View::make('login');
+        return View::make('auth/login');
     }
 
     public function loginPost()
     {
         $email = Input::get('email');
         $password = Input::get('password');
+        $info = [
+          'password' => $password,
+          'email' => $email
+        ];
+
+        $validator = Validator::make($info,
+          array(
+            'password' => 'required',
+            'email' => 'required|email'
+          )
+        );
+
+        if ($validator->fails())
+        {
+            return Redirect::route('login')->withInput()->withErrors($validator);
+        }
+
         if (Auth::attempt(array('email' => $email, 'password' => $password)))
         {
             return Redirect::to('/dashboard');
@@ -20,7 +37,7 @@ class AuthController extends \BaseController {
 
     public function signUp()
     {
-        return View::make('sign-up');
+        return View::make('auth/signup');
     }
 
     public function signUpPost()
@@ -42,7 +59,7 @@ class AuthController extends \BaseController {
 
         if ($validator->fails())
         {
-            return Redirect::to('/sign-up')->withInput()->withErrors($validator);
+            return Redirect::route('signup')->withInput()->withErrors($validator);
         }
 
         $hash = Hash::make($password);
@@ -50,12 +67,12 @@ class AuthController extends \BaseController {
         $user = new User;
         $user->email = $email;
         $user->password = $hash;
-        $user->pages = 0;
+        $user->plan = 'free';
         $user->save();
 
         Auth::attempt(array('email' => $email, 'password' => $password));
 
-        return Redirect::to('/billing');
+        return Redirect::route('pick.billing');
     }
 
     public function logout()
@@ -65,8 +82,8 @@ class AuthController extends \BaseController {
     }
 
     public function dashboard(){
-        $userid = Auth::id();
-        $pages = Page::where('user_id', '=', $userid)->get();
+        $user_id = Auth::id();
+        $pages = Page::where('user_id', '=', $user_id)->get();
         return View::make('dashboard', ['pages'=>$pages]);
     }
 

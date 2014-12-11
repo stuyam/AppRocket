@@ -13,32 +13,36 @@
 
 Route::get('/', 'AuthController@signUp');
 
-Route::get('/login', 'AuthController@login');
+Route::get('/login', ['as'=>'login', 'uses'=>'AuthController@login']);
+Route::post('/login', ['as'=>'post.login', 'uses'=>'AuthController@loginPost']);
 
-Route::post('/login', 'AuthController@loginPost');
+Route::get('/signup', ['as'=>'signup', 'uses'=>'AuthController@signUp']);
+Route::post('/signup', ['as'=>'post.signup', 'uses'=>'AuthController@signUpPost']);
 
-Route::get('/sign-up', 'AuthController@signUp');
+Route::get('/logout', ['as'=>'logout', 'uses'=>'AuthController@logout']);
 
-Route::post('/sign-up', 'AuthController@signUpPost');
 
-Route::get('/logout', 'AuthController@logout');
 
-Route::group(array('before' => 'auth'), function()
+
+
+Route::group(['before' => 'auth'], function()
 {
-    Route::get('/billing', 'BillingController@billing');
+    Route::get('/billing', ['as'=>'pick.billing', 'uses'=>'BillingController@billing']);
 
-    Route::post('/billing/starter', 'BillingController@billingStarter');
+//    Route::post('/billing/free', ['as'=>'billing.starter','uses'=>'BillingController@billingStarter']);
 
-    Route::post('/billing/pro', 'BillingController@billingPro');
+    Route::post('/billing/pro', ['as'=>'billing.pro', 'uses'=>'BillingController@billingPro']);
+//});
+//
+//Route::group(array('before' => 'auth|subscribed'), function()
+//{
+    Route::get('/dashboard', ['as'=>'dashboard', 'uses'=>'AuthController@dashboard']);
+
+    Route::get('/edit', ['as'=>'edit', 'uses'=>'PageController@edit']);
+    Route::get('/{id}/edit', ['as'=>'edit.existing', 'uses'=>'PageController@editExisting']);
+    Route::post('/edit', ['as'=>'post.edit', 'uses'=>'PageController@editPost']);
+
+    Route::get('/{id}/delete', ['as'=>'delete', 'uses'=>'PageController@delete']);
 });
 
-Route::group(array('before' => 'auth|subscribed'), function()
-{
-    Route::get('/dashboard', 'AuthController@dashboard');
-
-    Route::get('/create', 'PageController@create');
-
-    Route::post('/create', 'PageController@createMake');
-});
-
-Route::get('/{name}', 'PageController@view');
+Route::get('/p/{name}', ['as'=>'public.page', 'uses'=>'PageController@view']);

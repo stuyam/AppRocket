@@ -1,124 +1,133 @@
 <?php
 
+use AppRocket\FileHandler;
+use AppRocket\Validate;
+use AppRocket\DataNormalizer;
+use AppRocket\Respond;
+
 class PageController extends \BaseController {
 
-	public function create()
-	{
-		return View::make('edit');
+  protected $fileHandler;
+  protected $validate;
+  protected $page;
+  protected $dataNormalizer;
+  protected $respond;
+
+  public function __construct(FileHandler $fileHandler, Validate $validate, Page $page, DataNormalizer $dataNormalizer, Respond $respond)
+  {
+    $this->fileHandler    = $fileHandler;
+    $this->validate       = $validate;
+    $this->page           = $page;
+    $this->dataNormalizer = $dataNormalizer;
+    $this->respond = $respond;
+  }
+
+  public function edit()
+  {
+    $viewData = $this->dataNormalizer->editorViewData(Input::all());
+    return View::make('edit', $viewData);
+  }
+
+	public function editExisting($name)
+  {
+    if ($page = $this->page->whereName($name)->first()) {
+      $data = json_decode($page['data'], true);
+      $data['name'] = $name;
+      $data['id'] = $page->id;
+      $viewData = $this->dataNormalizer->editorViewData(Input::all(), $data);
+      return View::make('edit', $viewData);
+    }
+    return '404';
 	}
 
-    public function createMake()
+  public function delete($name)
+  {
+    if( $page = $this->page->doesUserOwnPage(Auth::id(), $name) )
     {
-        $userid = Auth::id();
-        $name = Input::get('name');
-        $title = Input::get('title');
-        $about = Input::get('about');
-        $store_url = Input::get('store_url');
-        $phone_color = Input::get('phone_color');
-        $text_color = Input::get('text_color');
-        $copyright = Input::get('copyright');
-        $imageMIME = Input::file('image');
-        $backgroundMIME = Input::file('background');
-        $background_color = Input::get('background_color');
+      File::deleteDirectory(public_path() . "/uploads/$page->id");
+      $page->delete();
+      return Redirect::back()->with('message', 'App Rocket page deleted successfully!');
+    }
+    return Redirect::back();
+  }
 
-        $info = [
-            'name'        => $name,
-            'title'       => $title,
-            'about'       => $about,
-            'phone_color' => $phone_color,
-            'text_color'  => $text_color,
-            'copyright'   => $copyright,
-            'screenshot'  => $imageMIME,
-            'background'  => $backgroundMIME,
-            'store_url'   => $store_url,
-        ];
-        $validator = Validator::make($info,
-            array(
-                'name'        => 'required|min:3|max:255|unique:pages|alpha_dash',
-                'title'       => 'required',
-                'about'       => 'required',
-                'phone_color' => 'required',
-                'text_color'  => 'required',
-                'copyright'   => 'required',
-                'screenshot'  => 'required|image',
-                'background'  => 'image',
-                'store_url'   => 'url',
-            )
-        );
+  public function editPost()
+  {
+    $user_id          = Auth::id();
+    $post             = Input::all();
+    $id               = Input::has('id') ? Input::get('id') : false;
+    $background_image = Input::file('background_image');
 
-        if ($validator->fails())
-        {
-            //$validator->getMessageBag()->add('name', 'Name already exists!');
-            //dd($validator->messages());
-            return Redirect::to('/create')->withInput()->withErrors($validator);
-        }
+//    if( ! $this->page->doesOwnSavedPage($user_id, $id) )
+//      return "You don't have permission to modify this App Rocket Page";
 
-        if(Input::get('back_option') === 'color')
-        {
-            if(substr($background_color, 0, 1) === '#')
-            {
-                $background = $background_color;
-            }
-            else
-            {
-                $background = '#'.$background_color;
-            }
-        }
-        else
-        {
-            $background = md5(uniqid('backgroundID', true)).'.'.Input::file('background')->getClientOriginalExtension();
-            Input::file('background')->move(public_path().'/backgrounds', $background);
-        }
+    $validation = $this->validate->editor($post, $id);
+    if( $validation->fails() )
+      return Redirect::back()->withInput()->withErrors($validation);
 
-        $imageID = md5(uniqid('imageID', true)).'.'.Input::file('image')->getClientOriginalExtension();
+    $background = $this->getBackground($post, $background_image);
 
-        Input::file('image')->move(public_path().'/screens', $imageID);
-
-        $optionals = ['image2', 'image3', 'image4'];
-        foreach($optionals as $o)
-        {
-            if(Input::hasFile($o))
-            {
-                $i = md5(uniqid('imageID', true)).Input::file($o)->getClientOriginalExtension();
-                Input::file($o)->move(public_path().'/screens', $i);
-                $imageID .= ','.$i;
-            }
-        }
-
-        $page = new Page;
-        $page->user_id     = $userid;
-        $page->name        = strtolower($name);
-        $page->title       = $title;
-        $page->about       = $about;
-        $page->image       = $imageID;
-        $page->background  = $background;
-        $page->copyright   = $copyright;
-        $page->store_url   = $store_url;
-        $page->phone_color = $phone_color;
-        $page->text_color  = $text_color;
-        $page->save();
-
-        $pagesCount = Page::where('user_id', '=', $userid)->count();
-
-        User::where('id', '=', $userid)->update(array('pages' => $pagesCount));
-
-        return Redirect::to('/'.$name);
+    $images = ['screen-0', 'screen-1', 'screen-2', 'screen-3'];
+    foreach($images as $i) {
+      if(Input::hasFile($i))
+        $screens[$i.'-meta'] = $this->fileHandler->nameFile(Input::file($i));
+      elseif(isset($post[$i.'-meta']))
+        $screens[$i.'-meta'] = $post[$i.'-meta'];
+      else
+        $screens[$i.'-meta'] = null;
     }
 
-    public function view($name){
-        $page = Page::where('name', '=', $name)->first();
-        if( ! $page)
-        {
-            return Response::make('404 Page Not Found!');
-        }
-        $user = User::where('id', '=', $page->user_id)->first();
+    $page_id = $this->page->savePage($id, $user_id, $post, $background, $screens);
 
-        if ( ! $user->subscribed())
-        {
-            return Response::make('404 Page Not Found!');
-        }
+    if( ! $this->dataNormalizer->isFirstCharacterHex($background) )
+      if( $post['blur'] != 0 ) {
+        $image = new Imagick($background_image);
+        $background_image = $image->blurImage($post['blur'], 1);
+      }
+      $this->fileHandler->saveFile($background_image, $page_id, $background);
 
-        return View::make('app', $page);
+    foreach($images as $i) {
+      // If the image is to be over written by another image
+      if( strpos($post[$i . '-meta'], 'modified') !== false) {
+        $removeFile = str_replace('modified:', '', $post[$i . '-meta']) ;
+        File::delete(public_path() . "/uploads/$page_id/$removeFile");
+      }
+      if(Input::hasFile($i))
+         $this->fileHandler->saveFile(Input::file($i), $page_id, $screens[$i.'-meta']);
     }
+
+    return Redirect::to("/$post[name]");
+  }
+
+  public function view($name){
+    $page = $this->page->whereName($name)->first();
+    if( ! $page)
+    {
+      return $this->respond->with404();
+    }
+    $user = User::where('id', '=', $page->user_id)->first();
+
+//    if ( ! $user->subscribed())
+//    {
+//      return $this->respond->with404();
+//    }
+
+    $page['data'] = json_decode($page['data'], true);
+    return View::make('dump', $page);
+  }
+
+  private function getBackground($input, $image)
+  {
+    if($input['back_option'] == 'color'){
+      if($this->dataNormalizer->isFirstCharacterHex($input['background_color']))
+        return $input['background_color'];
+      else
+        return '#'.$input['background_color'];
+    }
+    else
+    {
+      return $this->fileHandler->nameFile($image);
+    }
+  }
 
 }

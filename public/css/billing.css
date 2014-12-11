@@ -25,9 +25,28 @@ body{
     width: 80%;
     margin-left: 10%;
     margin-right: 10%;
+    background: #25bc39 !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+}
+
+.stripe-button-el span{
+    background: #25bc39 !important;
+    text-align: center;
+    border: 0px;
+    text-shadow: none !important;
+}
+
+a:hover{
+    text-decoration: none;
 }
 
 h2, h3{
     width: 100%;
     text-align: center;
+}
+
+ul{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
